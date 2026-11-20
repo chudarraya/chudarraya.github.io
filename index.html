@@ -9,6 +9,76 @@
   :root{--bg:#000;--text:#fff;--gray:#8a8a8a;--line:rgba(255,255,255,.15)}
   *{box-sizing:border-box;margin:0;padding:0}
   html{background:var(--bg)}
+  <!-- ИНТЕРАКТИВНЫЙ ШЛЕЙФ КУРСОРА -->
+<canvas id="cursor-trail" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999;"></canvas>
+<script>
+(function(){
+  // Отключаем эффект на мобильных и планшетах (там нет hover-курсорa)
+  if('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const canvas = document.getElementById('cursor-trail');
+  const ctx = canvas.getContext('2d');
+  const particles = [];
+  const MAX_PARTICLES = 40;
+  const LIFETIME = 700; // мс — время жизни кружочка
+  let lastX = 0, lastY = 0, lastAddTime = 0;
+
+  function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  document.addEventListener('mousemove', function(e){
+    const now = performance.now();
+    const dx = e.clientX - lastX;
+    const dy = e.clientY - lastY;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+
+    // Добавляем кружочек только если курсор сдвинулся минимум на 8px
+    // и прошло хотя бы 16мс (чтобы не было "слипания")
+    if(dist > 8 && now - lastAddTime > 16){
+      particles.push({
+        x: e.clientX,
+        y: e.clientY,
+        born: now,
+        size: 2 + Math.random() * 3
+      });
+      if(particles.length > MAX_PARTICLES) particles.shift();
+      lastX = e.clientX;
+      lastY = e.clientY;
+      lastAddTime = now;
+    }
+  });
+
+  function animate(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const now = performance.now();
+
+    for(let i = particles.length - 1; i >= 0; i--){
+      const p = particles[i];
+      const age = now - p.born;
+      if(age > LIFETIME){
+        particles.splice(i, 1);
+        continue;
+      }
+      const life = 1 - (age / LIFETIME); // 1 → 0
+      const alpha = life * 0.5; // макс. прозрачность 0.5 — не мешает чтению
+      const size = p.size * life;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255, 255, 255, ' + alpha + ')';
+      ctx.fill();
+    }
+
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+</script>
   body{background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
   a{color:var(--text);text-decoration:none;transition:color .2s}
   a:hover{color:var(--gray)}
