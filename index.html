@@ -76,13 +76,129 @@
   ul.clean li::before{content:"•";color:var(--gray);position:absolute;left:0}
   ul.clean li strong{color:var(--text)}
 
+  /* ===== ГАЛЕРЕЯ РАБОТ ===== */
   .gallery{display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:24px;margin-top:24px}
-  .gallery-item{background:#0a0a0a;border:1px solid var(--line);transition:border-color .3s}
-  .gallery-item:hover{border-color:var(--gray)}
-  .gallery-item img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;filter:grayscale(100%);transition:filter .4s}
-  .gallery-item:hover img{filter:grayscale(0%)}
-  .gallery-item p{padding:16px;font-size:15px;color:var(--gray);margin:0;font-family:Arial,Helvetica,sans-serif}
-  .gallery-item strong{color:var(--text);display:block;margin-bottom:4px}
+  .gallery-item{background:#0a0a0a;border:1px solid var(--line);transition:border-color .3s, transform .3s;cursor:pointer;position:relative;overflow:hidden}
+  .gallery-item:hover{border-color:var(--gray);transform:translateY(-4px)}
+  .gallery-item-inner{padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:280px;text-align:center;gap:16px}
+  .gallery-item h4{font-size:17px;font-weight:700;color:var(--text);letter-spacing:0.04em;margin:0}
+  .gallery-item .year{color:var(--gray);font-size:14px;letter-spacing:0.05em}
+  .gallery-item .team-badge{font-size:12px;color:var(--gray);font-style:italic;margin-top:4px}
+  
+  /* Пульсирующий квадратик-иконка */
+  .pulse-icon{
+    width:24px;height:24px;
+    background:#fff;
+    animation:pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%, 100% { background:#ffffff; box-shadow:0 0 0 rgba(255,255,255,0.4); }
+    50% { background:#8a8a8a; box-shadow:0 0 20px rgba(255,255,255,0.2); }
+  }
+  
+  /* Бейдж "В разработке" */
+  .wip-badge{
+    position:absolute;top:12px;right:12px;
+    font-size:11px;letter-spacing:0.1em;text-transform:uppercase;
+    color:var(--gray);
+    padding:4px 10px;
+    border:1px solid var(--line);
+    background:rgba(0,0,0,0.6);
+    backdrop-filter:blur(4px);
+  }
+
+  /* ===== МОДАЛЬНОЕ ОКНО ===== */
+  .modal-overlay{
+    position:fixed;inset:0;
+    background:rgba(0,0,0,0.85);
+    backdrop-filter:blur(8px);
+    z-index:1000;
+    display:none;
+    align-items:center;justify-content:center;
+    padding:24px;
+    opacity:0;
+    transition:opacity .3s;
+  }
+  .modal-overlay.active{display:flex;opacity:1}
+  .modal{
+    background:#0a0a0a;
+    border:1px solid var(--line);
+    max-width:800px;width:100%;
+    max-height:90vh;
+    overflow-y:auto;
+    position:relative;
+  }
+  .modal-close{
+    position:absolute;top:16px;right:16px;
+    width:40px;height:40px;
+    background:transparent;border:1px solid var(--line);
+    color:var(--text);font-size:20px;
+    cursor:pointer;transition:all .2s;
+    display:flex;align-items:center;justify-content:center;
+    z-index:10;
+  }
+  .modal-close:hover{background:var(--text);color:var(--bg);border-color:var(--text)}
+  .modal-media{
+    width:100%;aspect-ratio:16/9;
+    background:#111;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--gray);font-size:14px;letter-spacing:0.1em;text-transform:uppercase;
+    border-bottom:1px solid var(--line);
+  }
+  .modal-content{padding:32px}
+  .modal-content h3{font-size:28px;color:var(--text);margin-bottom:8px;letter-spacing:0.04em}
+  .modal-meta{color:var(--gray);font-size:14px;margin-bottom:24px;letter-spacing:0.03em}
+  .modal-meta span{margin-right:16px}
+  .modal-content p{font-size:16px;line-height:1.7;margin-bottom:16px;color:var(--text)}
+  .modal-content .modal-authors{color:var(--gray);font-size:14px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+
+  /* ===== ВЫСТАВКИ С HOVER-ЭФФЕКТОМ ===== */
+  .exhibition-item{
+    padding:20px 0;
+    border-top:1px solid var(--line);
+    cursor:default;
+    position:relative;
+  }
+  .exhibition-item:last-child{border-bottom:1px solid var(--line)}
+  .exhibition-header{
+    display:flex;gap:16px;align-items:baseline;flex-wrap:wrap;
+  }
+  .exhibition-year{
+    color:var(--gray);font-size:15px;font-weight:700;letter-spacing:0.05em;min-width:50px;
+  }
+  .exhibition-name{
+    color:var(--text);font-size:17px;font-weight:700;letter-spacing:0.03em;
+  }
+  .exhibition-place{
+    color:var(--gray);font-size:15px;margin-top:4px;
+  }
+  /* Сертификат при наведении */
+  .exhibition-cert{
+    max-height:0;overflow:hidden;opacity:0;
+    transition:max-height .4s ease, opacity .4s ease, margin-top .4s ease;
+    color:var(--gray);font-size:14px;font-style:italic;
+    display:flex;align-items:flex-start;gap:8px;
+  }
+  .exhibition-cert::before{content:"🏆";font-style:normal;flex-shrink:0}
+  .exhibition-item:hover .exhibition-cert{
+    max-height:100px;opacity:1;margin-top:10px;
+  }
+
+  /* ===== НАУЧНАЯ ДЕЯТЕЛЬНОСТЬ ===== */
+  .science-card{
+    background:#0a0a0a;border:1px solid var(--line);
+    padding:32px;margin-top:24px;max-width:70ch;
+    display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:32px;align-items:center;
+  }
+  .science-media{
+    aspect-ratio:3/4;background:#111;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--gray);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;
+    border:1px solid var(--line);
+  }
+  .science-card h3{color:var(--text);font-size:18px;margin-bottom:12px}
+  .science-card p{font-size:15px;color:var(--gray);margin-bottom:8px}
+  .science-card .achievement{color:var(--text);font-size:14px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-style:italic}
 
   @media(max-width:800px){
     .home-grid,.intro{grid-template-columns:1fr}
@@ -94,10 +210,11 @@
     h3{font-size:17px}
     .bar{flex-wrap:wrap;gap:12px}
     .bar-left{width:100%;justify-content:space-between}
-    .lang-switch{padding:4px;gap:4px}
-    .lang-btn{padding:6px 12px;font-size:12px;min-width:40px}
+    .science-card{grid-template-columns:1fr;padding:24px}
+    .modal-content{padding:24px}
+    .modal-content h3{font-size:22px}
   }
-  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
@@ -149,7 +266,6 @@
       <div>
         <h1 data-i18n="designer_title">Графический дизайнер</h1>
         <p class="muted" data-i18n="designer_subtitle">Бренд-дизайн, айдентика, дизайн-системы</p>
-        
         <h2 data-i18n="about_title">О себе</h2>
         <p data-i18n="designer_about">Графический и бренд-дизайнер, 4 года в брендинге и айдентике: аудит и бенчмаркинг, брендбук, паттерны и макеты упаковки, дизайн-системы в Figma. Вела проекты и команды из 3–4 junior-дизайнеров; концепция для «Карты вкусов» выбрана заказчиком из примерно десяти. Веду клиента от брифа и сметы до печати. Использую нейросети в работе и обучила им 8 групп. Магистр цифрового искусства (ДВФУ, диплом с отличием).</p>
         <a class="action-btn" href="https://www.behance.net/chudaai" target="_blank" rel="noopener" data-i18n="behance_works">Работы на Behance</a>
@@ -257,22 +373,18 @@
     <p style="margin-bottom:8px" data-i18n="lang_en">Английский: B1</p>
     <p style="margin-bottom:16px" data-i18n="lang_cn">Китайский: A1</p>
 
-    <!-- БЛОК КОНТАКТОВ -->
     <div style="margin-top: 64px; padding-top: 48px; border-top: 1px solid var(--line); max-width: 70ch;">
       <h2 style="margin-top: 0;" data-i18n="contact_title">Давайте обсудим ваш проект</h2>
       <p class="muted" style="margin-bottom: 24px;" data-i18n="contact_desc">Открыта к новым задачам и интересным коллаборациям. Отвечаю в течение дня. Выбирайте удобный способ связи:</p>
-      
       <div style="display: flex; gap: 16px; flex-wrap: wrap;">
         <a href="https://t.me/chudarray" target="_blank" rel="noopener" class="action-btn" data-i18n="contact_tg">Написать в Telegram</a>
         <a href="mailto:chu.da.ai@yandex.ru" class="action-btn" data-i18n="contact_email">Отправить письмо на почту</a>
         <a href="https://vk.ru/chudarraya" target="_blank" rel="noopener" class="action-btn" data-i18n="contact_vk">Моя страница ВК</a>
       </div>
-      
       <p style="margin-top: 24px; font-size: 15px; color: var(--gray);">
         <span data-i18n="contact_or">Или скачайте моё</span> <a href="resume.pdf" download style="border-bottom: 1px dashed var(--gray);" data-i18n="contact_cv">резюме в PDF</a>, <span data-i18n="contact_share">чтобы поделиться им с командой.</span>
       </p>
     </div>
-
   </div>
 </main>
 
@@ -294,7 +406,7 @@
         <img src="photo-bw.jpg" alt="Daria Chuprynina, media artist">
         <div class="contacts">
           <p>chu.da.ai@yandex.ru</p>
-          <p>Telegram: @chudarray · @chu.da_ai</p>
+          <p>Telegram: <a href="https://t.me/chudarray" target="_blank" rel="noopener">@chudarray</a> · @chu.da_ai</p>
           <p>VK: <a href="https://vk.ru/chudarraya" target="_blank" rel="noopener">vk.ru/chudarraya</a></p>
         </div>
       </div>
@@ -312,234 +424,230 @@
     <p data-i18n="statement_p2">В основе метода лежит принцип «сканирования реальности»: документация скрытых паттернов в архитектурных ритмах, фиксация тактильных следов ландшафта и преобразование звуковой атмосферы в интерактивные карты.</p>
     <p data-i18n="statement_p3">Моя цель — создать визуальный язык, позволяющий ощутить фундаментальную связь человека и среды, преодолевая отчуждение современного урбанизированного мира.</p>
 
-    <h2 data-i18n="projects_title">Ключевые проекты</h2>
-    <ul class="clean">
-      <li><strong><a href="http://dafefu.su/archive_vdk_chu" target="_blank" rel="noopener" style="text-decoration:underline;color:var(--text)" data-i18n="project_city_name">Город как текстура | Калейдоскопический глаз</a>, 2024–2026.</strong> <span data-i18n="project_city_desc">Интерактивный цифровой архив и медиаинсталляция, исследующая тактильную память Владивостока через сканирование и визуализацию городских поверхностей. (Магистерский проект)</span></li>
-    </ul>
-
-    <h2 data-i18n="exhibitions_title">Выставки</h2>
-    <ul class="clean">
-      <li data-i18n="exhibition_between">«Между домами», Художественный музей ДВФУ, ВДК, 2024</li>
-      <li data-i18n="exhibition_museum">«Ночь музеев», Музей Арсеньева, ВДК, 2024</li>
-      <li data-i18n="exhibition_land">«Земля которой не было», Музей «Россия — моя история», ВДК, 2026</li>
-    </ul>
-
+    <!-- ГАЛЕРЕЯ РАБОТ -->
     <h2 data-i18n="gallery_title">Галерея работ</h2>
-    <div class="gallery">
-      <div class="gallery-item">
-        <img src="project1.jpg" alt="City as Texture" onerror="this.style.display='none'; this.parentElement.innerHTML+='<p style=\'padding:16px;color:var(--gray);\'>Изображение не найдено. Проверьте имя файла: project1.jpg</p>'">
-        <p><strong data-i18n="gallery1_name">Город как текстура / Калейдоскопический глаз</strong><span data-i18n="gallery1_type">Интерактивная инсталляция, 2024–2026</span></p>
-      </div>
-      
-      <div class="gallery-item">
-        <img src="project2.jpg" alt="VVO" onerror="this.style.display='none'; this.parentElement.innerHTML+='<p style=\'padding:16px;color:var(--gray);\'>Изображение не найдено. Проверьте имя файла: project2.jpg</p>'">
-        <p><strong>VVO</strong><span data-i18n="gallery2_type">Интерактивная 3D-карта звукового ландшафта, 2024</span></p>
-      </div>
+    <div class="gallery" id="works-gallery">
+      <!-- Карточки генерируются через JS -->
+    </div>
 
-      <div class="gallery-item" style="border: 1px dashed var(--gray); display: flex; align-items: center; justify-content: center; text-align: center; min-height: 250px;">
-        <p style="margin: 0; padding: 16px; color: var(--gray); font-size: 15px;">
-          <strong style="color: var(--text); display: block; margin-bottom: 8px; font-size: 16px;" data-i18n="wip_title">В процессе оформления</strong>
-          <span data-i18n="wip_desc">Остальные проекты архива находятся на этапе оцифровки и будут добавлены позже.</span>
-        </p>
+    <!-- КЛЮЧЕВЫЕ ПРОЕКТЫ (один объединённый дипломный) -->
+    <h2 data-i18n="key_project_title">Ключевые проекты</h2>
+    <div class="job" style="border-top:none;margin-top:16px">
+      <h3><a href="http://dafefu.su/archive_vdk_chu" target="_blank" rel="noopener" style="text-decoration:underline;color:var(--text)" data-i18n="key_project_name">Город как текстура | Калейдоскопический глаз</a></h3>
+      <p class="period">2024 – 2026</p>
+      <p class="location" data-i18n="key_project_type">Дипломный проект, магистратура ДВФУ</p>
+      <p class="desc" data-i18n="key_project_desc">Интерактивный веб-архив и медиаинсталляция, исследующая тактильную память Владивостока. Проект собирает текстуры городских поверхностей — стены, асфальт, фасады, следы времени — как форму материальной памяти города. Метод «художественного сканирования» превращает фрагменты городской ткани в генеративные паттерны и звуковые ландшафты, создавая гипнотический цифровой образ — «Калейдоскопический глаз». Зритель здесь не турист, а исследователь, читающий город через его слои.</p>
+    </div>
+
+    <!-- ВЫСТАВКИ И ПРИЗНАНИЕ -->
+    <h2 data-i18n="exhibitions_title">Выставки и признание</h2>
+    <div id="exhibitions-list" style="max-width:70ch">
+      <!-- Генерируется через JS -->
+    </div>
+
+    <!-- НАУЧНАЯ ДЕЯТЕЛЬНОСТЬ -->
+    <h2 data-i18n="science_title">Научная деятельность</h2>
+    <div class="science-card">
+      <div class="science-media" data-i18n="science_media_placeholder">Место для фото диплома</div>
+      <div>
+        <h3 data-i18n="science_article_title">Исследование новых форм в медиаискусстве с использованием больших данных, алгоритмов и искусственного интеллекта</h3>
+        <p data-i18n="science_author">Автор: Чупрынина Дарья Андреевна, студент ДВФУ</p>
+        <p class="achievement" data-i18n="science_achievement">Диплом III степени на 14-й Международной молодёжной научной конференции «Молодёжь и XXI век — 2025» (г. Курск, 20–21 февраля 2025 г.)</p>
       </div>
     </div>
 
+    <!-- ОПЫТ И ПРЕПОДАВАНИЕ -->
+    <h2 data-i18n="teaching_title">Опыт и преподавание</h2>
+    <div class="job" style="border-top:none;margin-top:16px">
+      <h3 data-i18n="rgisi_name">Школа креативных индустрий (РГИСИ)</h3>
+      <p class="period" data-i18n="rgisi_period">сентябрь 2025 – июль 2026</p>
+      <p class="location" data-i18n="rgisi_location">Преподаватель интерактивных цифровых технологий, Владивосток</p>
+      <p class="desc" data-i18n="rgisi_desc_full">Авторский интенсивный курс: генеративный AI (нейросети и промптинг), цифровое проектирование (3D, Blender), дополненная и виртуальная реальность (AR/VR). Полный цикл создания проекта: от идеи до публичной защиты за 3 недели. Студенты становятся не просто пользователями, а творцами цифровой среды.</p>
+    </div>
+
+    <!-- ИНСТРУМЕНТЫ -->
     <h2 data-i18n="tools_title">Инструменты</h2>
-    <p data-i18n="tools_desc">TouchDesigner, VVVV, Resolume Arena, Blender, Unreal Engine, QGIS, Figma, Adobe Creative Cloud, Premiere Pro, нейросети.</p>
+    <ul class="clean">
+      <li data-i18n="tool_interactive"><strong data-i18n="tool_interactive_label">Интерактивные среды:</strong> TouchDesigner, VVVV, Resolume Arena</li>
+      <li data-i18n="tool_3d"><strong data-i18n="tool_3d_label">3D-моделирование:</strong> Blender, 3D Max, Rhinoceros 3D, SketchUp</li>
+      <li data-i18n="tool_design"><strong data-i18n="tool_design_label">Графический дизайн:</strong> Adobe Creative Cloud, Figma</li>
+      <li data-i18n="tool_gis"><strong data-i18n="tool_gis_label">ГИС и данные:</strong> QGIS</li>
+      <li data-i18n="tool_ai"><strong data-i18n="tool_ai_label">Нейросети:</strong> Midjourney, Jimeng (即梦AI), Stable Diffusion, ChatGPT, Deepseek, Tripo AI, Runway, Suno</li>
+      <li data-i18n="tool_video"><strong data-i18n="tool_video_label">Видеомонтаж:</strong> Premiere Pro, OBS Studio</li>
+      <li data-i18n="tool_game"><strong data-i18n="tool_game_label">Игровые движки:</strong> Unreal Engine</li>
+    </ul>
+
+    <!-- КОНТАКТЫ -->
+    <div style="margin-top: 64px; padding-top: 48px; border-top: 1px solid var(--line); max-width: 70ch;">
+      <h2 style="margin-top: 0;" data-i18n="contact_title">Давайте обсудим ваш проект</h2>
+      <p class="muted" style="margin-bottom: 24px;" data-i18n="contact_desc">Открыта к новым задачам и интересным коллаборациям. Отвечаю в течение дня. Выбирайте удобный способ связи:</p>
+      <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+        <a href="https://t.me/chudarray" target="_blank" rel="noopener" class="action-btn" data-i18n="contact_tg">Написать в Telegram</a>
+        <a href="mailto:chu.da.ai@yandex.ru" class="action-btn" data-i18n="contact_email">Отправить письмо на почту</a>
+        <a href="https://vk.ru/chudarraya" target="_blank" rel="noopener" class="action-btn" data-i18n="contact_vk">Моя страница ВК</a>
+      </div>
+    </div>
   </div>
 </main>
 
-<!-- ИНТЕРАКТИВНЫЙ ШЛЕЙФ КУРСОРА -->
+<!-- МОДАЛЬНОЕ ОКНО -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" id="modal-close">×</button>
+    <div class="modal-media" id="modal-media">Место для фото / видео</div>
+    <div class="modal-content">
+      <h3 id="modal-title"></h3>
+      <div class="modal-meta">
+        <span id="modal-year"></span>
+        <span id="modal-type"></span>
+      </div>
+      <div id="modal-description"></div>
+      <div class="modal-authors" id="modal-authors"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ШЛЕЙФ КУРСОРА -->
 <canvas id="cursor-trail" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999;"></canvas>
 
 <script>
+// ===== ДАННЫЕ ГАЛЕРЕИ РАБОТ =====
+const WORKS = {
+  ru: [
+    {id:"ekel", title:"«ЭКĘЛ»", year:"2026", type:"Видео-арт, мокьюментари", team:"Тарасенко Е., Синютина Н., Чупрынина Д.", desc:"Трейлер документального фильма в жанре мокьюментари, повествующего о вымирающем народе — эгейцах. Погружая зрителя в атмосферу, передающуюся музыкой, языком и цветокором, видеоряд поднимает проблему идентичности этнических народов, находящихся на грани исчезновения.", course:"Гибридные арт-пространства", tutor:"Мангушев Виталий"},
+    {id:"construction", title:"Construction completed", year:"2026", type:"Цифровая инсталляция", team:"Чупрынина Д., Любас С.", desc:"Цифровая инсталляция о ностальгии, о красоте «панелек» в их уродливости и о роли панельных домов в формировании поколений. Зритель, управляя «панельками», воссоздаёт знакомые образы. Под бетоном и окнами — мерцающий туннель метро, символ постоянного движения, а глубже — сюрреалистический ландшафт из старых игр и городских легенд. Название «строительство завершено» — метафорическое завершение личного «строительства», формирование себя как личности.", course:"Прикладные технологии в цифровом искусстве", tutor:"Дуглас Влада"},
+    {id:"city-texture", title:"Город как текстура: цифровой архив", year:"2026", type:"Интерактивный веб-архив", team:"Чупрынина Дарья", desc:"Интерактивный веб-архив, фиксирующий городские поверхности Владивостока. Проект собирает текстуры — стены, асфальт, фасады, следы времени — как форму материальной памяти города. Каждая текстура — фрагмент городской жизни, исчезающий под краской, ремонтом или временем. Архив структурирован по районам, материалам и эмоциональным состояниям, позволяя посетителю выстраивать собственный маршрут. Интерактивность, зум, выбор, наслоение имитируют тактильный опыт прикосновения к поверхности. Зритель здесь не турист, а исследователь, читающий город через его слои. Проект существует как живой архив: он пополняется, меняется и сохраняет то, что иначе исчезнет.", course:"Нэт-арт", tutor:"Чугунов Андрей", isThesis:true},
+    {id:"personal-d", title:"Персональная выставка «Д»", year:"2026", type:"VR-опыт", team:"Чупрынина Дарья", desc:"Попытка осмыслить себя и попробовать поработать с VR.", course:"Гибридные арт-пространства", tutor:"Дуглас Влада"},
+    {id:"drops", title:"Капли доверия", year:"2025", type:"Интерактивная инсталляция", team:"Чупрынина Дарья", desc:"Интерактивная инсталляция, визуализирующая парадокс безопасности: она незаметная, хрупкая, как капля на стекле, но становится значимой, сильной только через соединение с другими.", course:"Конструирование визуальных систем", tutor:"Фомичёва Ирина"},
+    {id:"foxes", title:"Три лисы", year:"2025", type:"Серия бетонных скульптур", team:"Чупрынина Дарья", desc:"Серия бетонных фигур в минималистичной гранёной форме. Каждая лиса — символ острова Русского и ДВФУ, образ в философском контексте. Три лисы олицетворяют триединство университета: природа (кампус), человек (студенты), культура (город). Их цвета отсылают к инь и ян, где золото выступает третьим элементом — символ баланса и трансформации. Чёрная Лиса — Тень: самопознание и интроспекция. Белая Лиса — Свет: простота и ясность. Золотая Лиса — Связующее звено: переход, обмен знаниями между кампусом и городом.", course:"Городское искусство", tutor:"Шугуров Павел", link:"https://www.newsvl.ru/vlad/2025/06/01/231985/"},
+    {id:"garden", title:"Секретный сад", year:"2025", type:"Серия интерактивных плакатов с AR", team:"Тарасенко Е., Чупрынина Д.", desc:"Проект объединяет литературные вселенные, в которых фигурирует образ цветка: «Аленький цветочек», «Цветик-семицветик», «Неизвестный цветок», «Двенадцать месяцев», «Куст сирени», «Маленький принц», «Рапунцель». Сгенерированные цветы и их символический смысл отражены в серии плакатов, каждый из которых зритель может отсканировать, чтобы увидеть объёмную версию сказочных растений.", course:"Теория и практики современного искусства", tutor:"Мегидь Екатерина"},
+    {id:"gaksidan", title:"Гаксидан", year:"2025", type:"Видео-эссе", team:"Чупрынина Дарья", desc:"Визуальный оммаж фильму «Кояанискаци»: кинематографическое эссе о двойственности Владивостока (географическая изоляция vs гиперсвязанность). Через контрасты ритмов, масштабов и состояний (замедленная съёмка, таймлапс, аэросъёмка) город показан как живой организм, где сталкиваются природа, индустрия и повседневность. Основная тема — противоречие между изолированностью («гаксидан» — нанайское «непарный/одинокий») и связностью. Цель — оставить у зрителя вопрос: «Это гармония или война ритмов?», переосмыслив Владивосток не как периферию, а как точку космического столкновения миров.", course:"Видеопроизводство", tutor:"Дуглас Влада"},
+    {id:"kaleidoscope", title:"Калейдоскопический глаз", year:"2025", type:"Интерактивная инсталляция, сонификация", team:"Чупрынина Дарья", desc:"Мы часто воспринимаем город через панорамы и архитектурные формы. Но у города есть и другая, тактильная, материальная память — его текстуры: шероховатость гранита, узор коры, следы времени на стенах. Проект начинается с вопроса: что, если считать эти текстуры как данные, как уникальный код места, и преобразовать их не только в изображение, но и в звук? Метод «художественного сканирования»: ручной сканер становится продолжением взгляда. Как в детской игрушке из осколков стекла рождается идеальный симметричный узор, так и из фрагментов городской ткани создаётся новый, гипнотический цифровой образ. «Калейдоскопический глаз» — и способ видения, и итоговый образ.", course:"Саунд-дизайн и сонификация", tutor:"Шершенков Борис"},
+    {id:"didnt-do", title:"DID DON'T DO", year:"2025", type:"Гибридное арт-пространство", team:"Любас С., Кайгородова А., Тарасенко Е., Чупрынина Д.", desc:"Через комбинацию визуального искусства, музыки и символизма проект передаёт размышления о времени, взрослении, поиске себя и неизбежности забвения. Попытка создать уникальное гибридное арт-пространство, которое подтолкнуло бы зрителя задуматься о своём пути. Центральный элемент — многоплановое пространство: центр — аллегория необратимости взросления через детскую и взрослую кисти рук, стремящихся соприкоснуться; вокруг — карусель с четырьмя лошадьми, от которой расходятся тупиковые коридоры; композиция «Did Don't Do» и эффект озера. Работа воплощает цикл жизни, неизбежность времени и личные интерпретации участниц.", course:"Гибридные Арт-пространства", tutor:"Рязанова Екатерина"},
+    {id:"wavelength", title:"Длина волны", year:"2024", type:"Видео-арт", team:"Чупрынина Дарья", desc:"Проект исследует личную связь с водой как источником покоя и медитации в вечно ускоряющемся мире. Живя у воды — Чёрного моря, Южно-Китайского, реки Невы, а теперь у берегов Восточного моря — автор осознала, что вода является средством рефлексии и замедления. В видео-арте вода объединяет реальный и виртуальный миры через реальные и сгенерированные изображения и звуки, создавая пространство для осознанности и внутреннего диалога.", course:"Путь молодого художника", tutor:"Чугунов Андрей, Ильенок Олеся"},
+    {id:"vvo", title:"VVO", year:"2024", type:"Интерактивная 3D-карта", team:"Чупрынина Дарья", desc:"Интерактивная 3D-карта Владивостока, отражающая звучание и атмосферу города через визуальные и звуковые элементы. Карта отображает город в трёх измерениях (X, Y, Z), включая рельеф и высоту, полученные из карт QGIS.", course:"Генеративное искусство", tutor:"Горланова Ксения"}
+  ],
+  en: [
+    {id:"ekel", title:"«ÉKĘL»", year:"2026", type:"Video art, mockumentary", team:"Tarasenko E., Sinyutina N., Chuprynina D.", desc:"Trailer of a mockumentary film about the disappearing Egey people. Immersing the viewer in an atmosphere conveyed through music, language and color grading, the video raises the issue of identity of ethnic peoples on the verge of extinction.", course:"Hybrid Art Spaces", tutor:"Vitaly Mangushev"},
+    {id:"construction", title:"Construction completed", year:"2026", type:"Digital installation", team:"Chuprynina D., Lyubas S.", desc:"A digital installation about nostalgia, about the beauty of «panelki» (Soviet prefab buildings) in their ugliness, and about the role of panel houses in shaping generations. The viewer, controlling the «panelki», recreates familiar images. Under the concrete and windows — a flickering metro tunnel, a symbol of constant movement, and deeper — a surreal landscape of old games and urban legends. The title «construction completed» is a metaphorical completion of personal «construction», the formation of oneself as a personality.", course:"Applied Technologies in Digital Art", tutor:"Vlada Douglas"},
+    {id:"city-texture", title:"City as Texture: A Digital Archive", year:"2026", type:"Interactive web archive", team:"Darya Chuprynina", desc:"An interactive web archive capturing the urban surfaces of Vladivostok. The project collects textures — walls, asphalt, facades, traces of time — as a form of the city's material memory. Each texture is a fragment of urban life disappearing under paint, renovation or time. The archive is structured by districts, materials and emotional states, allowing the visitor to build their own route. Interactivity, zoom, choice, layering simulate the tactile experience of touching a surface. The viewer here is not a tourist, but a researcher reading the city through its layers. The project exists as a living archive: it grows, changes and preserves what would otherwise disappear.", course:"Net Art", tutor:"Andrey Chugunov", isThesis:true},
+    {id:"personal-d", title:"Personal Exhibition «D»", year:"2026", type:"VR experience", team:"Darya Chuprynina", desc:"An attempt to reflect on oneself and try working with VR.", course:"Hybrid Art Spaces", tutor:"Vlada Douglas"},
+    {id:"drops", title:"Drops of Trust", year:"2025", type:"Interactive installation", team:"Darya Chuprynina", desc:"An interactive installation visualizing the paradox of safety: it is imperceptible, fragile like a drop on glass, but becomes meaningful and strong only through connection with others.", course:"Visual Systems Design", tutor:"Irina Fomicheva"},
+    {id:"foxes", title:"Three Foxes", year:"2025", type:"Series of concrete sculptures", team:"Darya Chuprynina", desc:"A series of concrete figures in a minimalist faceted form. Each fox is a symbol of Russky Island and FEFU, an image within a philosophical context. Three foxes embody the trinity of the university: nature (campus), human (students), culture (city). Their colors refer to yin and yang, where gold acts as the third element — a symbol of balance and transformation. The Black Fox — Shadow: self-knowledge and introspection. The White Fox — Light: simplicity and clarity. The Golden Fox — The Link: transition, exchange of knowledge between campus and city.", course:"Urban Art", tutor:"Pavel Shugurov", link:"https://www.newsvl.ru/vlad/2025/06/01/231985/"},
+    {id:"garden", title:"Secret Garden", year:"2025", type:"Series of interactive AR posters", team:"Tarasenko E., Chuprynina D.", desc:"The project unites literary universes featuring the image of a flower: «The Scarlet Flower», «The Flower of Seven Colors», «The Unknown Flower», «The Twelve Months», «A Bush of Lilac», «The Little Prince», «Rapunzel». Generated flowers and their symbolic meaning are reflected in a series of posters, each of which the viewer can scan to see a volumetric version of the fairy-tale plants.", course:"Theory and Practice of Contemporary Art", tutor:"Ekaterina Megid"},
+    {id:"gaksidan", title:"Gaksidan", year:"2025", type:"Video essay", team:"Darya Chuprynina", desc:"A visual homage to the film «Koyaanisqatsi»: a cinematic essay about the duality of Vladivostok (geographic isolation vs. hyperconnectivity). Through contrasts of rhythms, scales and states (slow motion, timelapse, aerial photography), the city is shown as a living organism where nature, industry and everyday life collide. The main theme is the contradiction between isolation («gaksidan» — Nanai for «unpaired/lonely») and connectivity. The goal is to leave the viewer with the question: «Is this harmony or a war of rhythms?», rethinking Vladivostok not as a periphery, but as a point of cosmic collision of worlds.", course:"Videoproduction", tutor:"Vlada Douglas"},
+    {id:"kaleidoscope", title:"Kaleidoscopic Eye", year:"2025", type:"Interactive installation, sonification", team:"Darya Chuprynina", desc:"We often perceive the city through panoramas and architectural forms. But the city has another, tactile, material memory — its textures: the roughness of granite, the pattern of bark, traces of time on walls. The project begins with a question: what if we read these textures as data, as a unique code of place, and transform them not only into images but also into sound? The method of «artistic scanning»: a handheld scanner becomes an extension of the gaze. As in a children's toy, where shards of glass create a perfect symmetrical pattern, so from fragments of the urban fabric a new, hypnotic digital image is created. The «Kaleidoscopic Eye» is both a way of seeing and the final image.", course:"Sound design and sonification", tutor:"Boris Shershenkov"},
+    {id:"didnt-do", title:"DID DON'T DO", year:"2025", type:"Hybrid art space", team:"Lyubas S., Kaygorodova A., Tarasenko E., Chuprynina D.", desc:"Through a combination of visual art, music and symbolism, the project conveys reflections on time, growing up, self-discovery and the inevitability of oblivion. An attempt to create a unique hybrid art space that would prompt the viewer to reflect on their own path. The central element is a multi-layered space: the center — an allegory of the irreversibility of growing up, conveyed through children's and adult hands reaching to touch; around — a carousel with four horses, from which dead-end corridors branch out; the composition «Did Don't Do» and the lake effect. The work embodies the cycle of life, the inevitability of time and the personal interpretations of the participants.", course:"Hybrid Art Spaces", tutor:"Ekaterina Ryazanova"},
+    {id:"wavelength", title:"Wavelength", year:"2024", type:"Video art", team:"Darya Chuprynina", desc:"The project explores a personal connection with water as a source of peace and meditation in an ever-accelerating world. Living by the water — the Black Sea, the South China Sea, the Neva River, and now the shores of the East Sea — the author realized that water is a means of reflection and slowing down. In the video art, water unites the real and virtual worlds through real and generated images and sounds, creating a space for mindfulness and inner dialogue.", course:"The Path of a Young Artist", tutor:"Andrey Chugunov, Olesya Ilyenok"},
+    {id:"vvo", title:"VVO", year:"2024", type:"Interactive 3D map", team:"Darya Chuprynina", desc:"An interactive 3D map of Vladivostok that reflects the sound and atmosphere of the city through visual and audio elements. The map displays the city in three dimensions (X, Y, Z), including terrain and height obtained from QGIS maps.", course:"Generative Art", tutor:"Ksenia Gorlanova"}
+  ]
+};
+
+// ===== ДАННЫЕ ВЫСТАВОК =====
+const EXHIBITIONS = {
+  ru: [
+    {year:"2026", name:"Выставка «Через годы, сквозь туманы»", place:"Приморская государственная картинная галерея (в рамках проекта «Николай Рерих»)", cert:"Благодарственное письмо от Приморской государственной картинной галереи"},
+    {year:"2026", name:"Всероссийская культурно-образовательная акция «Ночь музеев»", place:"Центр современного искусства «Заря»", cert:"Благодарность магистратуре «Цифровое искусство» ДВФУ за участие (май 2026)"},
+    {year:"2026", name:"Междисциплинарная выставка современного искусства «Физика звука»", place:"МБУК Центр современного искусства «Артэтаж» (07.03.2026)", cert:"Благодарность за участие в выставке"},
+    {year:"2025", name:"Выставка «Между домами»", place:"Художественный музей ДВФУ", cert:"Благодарственное письмо от ДВФУ (март 2025)"},
+    {year:"2025", name:"Помощь в проведении «Ночи музеев»", place:"Музей-заповедник Дальнего Востока им. В.К. Арсеньева", cert:"Благодарность за помощь в проведении мероприятия"},
+    {year:"2025", name:"Летний лагерь «Дизайн и ремёсла в будущем»", place:"Шэньянский университет, Китай (июль 2025)", cert:"Сертификат об успешном прохождении"},
+    {year:"2024", name:"Выставка «Вечно синее небо»", place:"Приморская государственная картинная галерея (ретроспектива скульптур Даши Намдакова «Дорога домой»)", cert:"Благодарственное письмо в рамках ретроспективы выставок скульптора Даши Намдакова, «Ночь музеев 2024»"}
+  ],
+  en: [
+    {year:"2026", name:"Exhibition «Through the Years, Through the Mists»", place:"Primorsky State Art Gallery (within the «Nicholas Roerich» project)", cert:"Letter of appreciation from the Primorsky State Art Gallery"},
+    {year:"2026", name:"All-Russian cultural and educational event «Museum Night»", place:"Contemporary Art Center «Zarya»", cert:"Acknowledgment to the «Digital Art» Master's program of FEFU for participation (May 2026)"},
+    {year:"2026", name:"Interdisciplinary contemporary art exhibition «Physics of Sound»", place:"Municipal Budgetary Cultural Institution Center of Contemporary Art «Artetazh» (07.03.2026)", cert:"Acknowledgment for participation in the exhibition"},
+    {year:"2025", name:"Exhibition «Between Houses»", place:"FEFU Art Museum", cert:"Letter of appreciation from FEFU (March 2025)"},
+    {year:"2025", name:"Assistance in holding «Museum Night»", place:"V.K. Arseniev Museum of History and Culture of the Far East", cert:"Acknowledgment for assistance in holding the event"},
+    {year:"2025", name:"Summer camp «Design and Crafts of the Future»", place:"Shenyang University, China (July 2025)", cert:"Certificate of successful completion"},
+    {year:"2024", name:"Exhibition «Eternally Blue Sky»", place:"Primorsky State Art Gallery (retrospective of Dashi Namdakov's sculptures «Way Home»)", cert:"Letter of appreciation within the retrospective exhibitions of sculptor Dashi Namdakov, «Museum Night 2024»"}
+  ]
+};
+
 // ===== СИСТЕМА ПЕРЕВОДОВ =====
 const T = {
   ru: {
-    name: "Дарья Чупрынина",
-    tagline: "Графический дизайнер и цифровая медиахудожница",
-    designer_btn: "Графический дизайнер",
-    artist_btn: "Цифровая медиахудожница",
-    location: "Санкт-Петербург | Офис | Готова к командировкам",
-    download_cv: "Скачать резюме (PDF)",
-    designer_title: "Графический дизайнер",
-    designer_subtitle: "Бренд-дизайн, айдентика, дизайн-системы",
-    about_title: "О себе",
-    designer_about: "Графический и бренд-дизайнер, 4 года в брендинге и айдентике: аудит и бенчмаркинг, брендбук, паттерны и макеты упаковки, дизайн-системы в Figma. Вела проекты и команды из 3–4 junior-дизайнеров; концепция для «Карты вкусов» выбрана заказчиком из примерно десяти. Веду клиента от брифа и сметы до печати. Использую нейросети в работе и обучила им 8 групп. Магистр цифрового искусства (ДВФУ, диплом с отличием).",
-    behance_works: "Работы на Behance",
-    skills_title: "Навыки",
-    skill_branding: "<strong>Брендинг:</strong> логотип, фирменный стиль, брендбук, паттерны, дизайн упаковки, Tone of Voice, аудит и бенчмаркинг.",
-    skill_design: "<strong>Дизайн:</strong> типографика, вёрстка, полиграфия, презентации, векторная графика, веб-дизайн (прототип лендинга).",
-    skill_tools: "<strong>Инструменты:</strong> Figma (компоненты, прототипирование, Auto Layout: базовый уровень), Adobe Photoshop, Illustrator, InDesign, PowerPoint, Blender.",
-    skill_ai: "<strong>Нейросети (с 2022):</strong> Midjourney, Jimeng, Tripo AI, Runway, Suno, ChatGPT, Claude, Gemini; промпт-инжиниринг.",
-    skill_management: "<strong>Управление проектами:</strong> работа по ТЗ и брифу, смета, руководство командой.",
-    experience_title: "Опыт работы",
-    ktr_location: "(бренд одежды, Владивосток)",
-    ktr_desc: "Куратор и ведущий дизайнер. Смета, ведение клиента, команда из 3 junior-дизайнеров. Аудит, бенчмаркинг, брендбук (позиционирование, архетипы, логотип, палитра, паттерны на азбуке Морзе, носители); довела до печати принтов на футболках.",
-    karta_name: "«Карта вкусов»",
-    karta_location: "(заказчик ДВФУ)",
-    karta_desc: "Куратор и ведущий дизайнер. Концепция выбрана заказчиком из примерно десяти; защитила и презентовала. Команда из 4 junior-дизайнеров. Система паттернов на пакетах, сумках, упаковке еды, транспорте доставки; макеты и брендбук переданы заказчику.",
-    antro_name: "«Антропопрактика»",
-    antro_desc: "Логотип, палитра, шрифты, паттерн; печать для конференции; работа с типографией в Москве. Повторный заказ: дизайн-система в Figma для карточек курсов (5 вариантов за 1,5 месяца), которую владельцы редактируют сами. Положительный отзыв.",
-    lestnica_name: "«Лестница»",
-    lestnica_location: "(школа, Севастополь)",
-    lestnica_desc: "Логотип, палитра, паттерн, макеты для печати, оформление страницы ВК; вела группу ВК, адаптируя макеты.",
-    shpinat_name: "«Шпинатная история»",
-    shpinat_desc: "Аудит бренда и соцсетей, бенчмаркинг 6–7 конкурентов, рекомендации по стилю и контенту.",
-    first_projects_name: "Первые проекты",
-    first_projects_desc: "Фирменный стиль университетского буфета",
-    vkusnaya_name: "«Вкусная история»",
-    first_projects_desc2: "(СевГУ); брендинг и брендбук магазина детской одежды",
-    dochkam_name: "«Дочкам сынкам»",
-    teaching_title: "Преподавание",
-    rgisi_name: "Школа креативных индустрий (РГИСИ)",
-    rgisi_period: "сентябрь 2025 – июль 2026",
-    rgisi_location: "Куратор студии, преподаватель, Владивосток",
-    rgisi_desc: "Руководила проектом настольной игры «Покорители сопок» с 8 учениками: 600 карт, геймдизайн-документ, визуальная система (паттерн по высотам сопок), фигурки (рисунок → Tripo AI → Blender → 3D-печать). Участие в конкурсе «Родная игрушка 2026», образец направлен организаторам. Провела очный курс «В начале был промпт» (9 акад. часов; Midjourney, Jimeng, промпт-инжиниринг): 2 группы взрослых, 6 детских (12.2025 и 04.2026).",
-    contests_title: "Конкурсы",
-    young_design_name: "VI федеральный конкурс «Дизайн молодых / Young Design 2025»",
-    young_design_desc: "сезон 2024–2025 (задание Газпром Нефти): лендинг, Figma-прототип, предзащита и защита.",
-    education_title: "Образование",
-    dvfu_desc: "Магистратура, Цифровое искусство, диплом с отличием (защита: июль 2026)",
-    sevsu_desc: "Бакалавриат, Дизайн среды, с отличием",
-    faberge_name: "Санкт-Петербургский художественно-профессиональный лицей имени Карла Фаберже",
-    faberge_desc: "Ювелирное дело (ювелир 4-го разряда, огранщик 3-го разряда), среднее специальное",
-    courses_title: "Курсы",
-    course_ai_name: "Нейронные сети и искусственный интеллект для решения творческих задач в креативных индустриях",
-    course_ai_desc: "СПбГИКиТ, 36 ч, повышение квалификации",
-    course_marketing_name: "Цифровой маркетинг",
-    course_marketing_desc: "ДВФУ, профессиональная переподготовка, квалификация «Специалист по интернет-маркетингу»",
-    course_pedagogy_name: "Педагогика дополнительного образования детей и взрослых",
-    course_pedagogy_desc: "Профессиональная переподготовка, 600 ч, квалификация «Педагог дополнительного образования детей и взрослых»",
-    languages_title: "Языки",
-    lang_en: "Английский: B1",
-    lang_cn: "Китайский: A1",
-    contact_title: "Давайте обсудим ваш проект",
-    contact_desc: "Открыта к новым задачам и интересным коллаборациям. Отвечаю в течение дня. Выбирайте удобный способ связи:",
-    contact_tg: "Написать в Telegram",
-    contact_email: "Отправить письмо на почту",
-    contact_vk: "Моя страница ВК",
-    contact_or: "Или скачайте моё",
-    contact_cv: "резюме в PDF",
-    contact_share: "чтобы поделиться им с командой.",
-    artist_title: "Цифровая медиахудожница",
-    artist_subtitle: "Медиаинсталляция, интерактивное искусство, генеративная графика, саунд-арт, тактильный урбанизм",
-    bio_title: "Био",
-    artist_bio1: "Дарья Чупрынина — медиахудожница и исследовательница, работающая на пересечении цифрового и материального. Её метод сформирован сочетанием традиционного ремесла и цифровых технологий: опыт работы с горячей эмалью заложил основу понимания материала и цвета, который теперь трансформируется в digital-практиках.",
-    artist_bio2: "Исследует темы памяти места, тактильного опыта и трансформации идентичности в условиях смены локаций, от Санкт-Петербурга через Заполярье до Владивостока. Магистр цифрового искусства ДВФУ (2024–2026).",
-    statement_title: "Заявление художника",
-    statement_p1: "Моя художественная практика исследует память места как телесный опыт, где тактильность становится языком диалога между человеком и средой. Восьмилетнее погружение в искусство горячей эмали сформировало моё понимание материи как носителя времени и памяти.",
-    statement_p2: "В основе метода лежит принцип «сканирования реальности»: документация скрытых паттернов в архитектурных ритмах, фиксация тактильных следов ландшафта и преобразование звуковой атмосферы в интерактивные карты.",
-    statement_p3: "Моя цель — создать визуальный язык, позволяющий ощутить фундаментальную связь человека и среды, преодолевая отчуждение современного урбанизированного мира.",
-    projects_title: "Ключевые проекты",
-    project_city_name: "Город как текстура | Калейдоскопический глаз",
-    project_city_desc: "Интерактивный цифровой архив и медиаинсталляция, исследующая тактильную память Владивостока через сканирование и визуализацию городских поверхностей. (Магистерский проект)",
-    exhibitions_title: "Выставки",
-    exhibition_between: "«Между домами», Художественный музей ДВФУ, ВДК, 2024",
-    exhibition_museum: "«Ночь музеев», Музей Арсеньева, ВДК, 2024",
-    exhibition_land: "«Земля которой не было», Музей «Россия — моя история», ВДК, 2026",
-    gallery_title: "Галерея работ",
-    gallery1_name: "Город как текстура / Калейдоскопический глаз",
-    gallery1_type: "Интерактивная инсталляция, 2024–2026",
-    gallery2_type: "Интерактивная 3D-карта звукового ландшафта, 2024",
-    wip_title: "В процессе оформления",
-    wip_desc: "Остальные проекты архива находятся на этапе оцифровки и будут добавлены позже.",
-    tools_title: "Инструменты",
-    tools_desc: "TouchDesigner, VVVV, Resolume Arena, Blender, Unreal Engine, QGIS, Figma, Adobe Creative Cloud, Premiere Pro, нейросети."
+    name:"Дарья Чупрынина", tagline:"Графический дизайнер и цифровая медиахудожница", designer_btn:"Графический дизайнер", artist_btn:"Цифровая медиахудожница", location:"Санкт-Петербург | Офис | Готова к командировкам", download_cv:"Скачать резюме (PDF)", designer_title:"Графический дизайнер", designer_subtitle:"Бренд-дизайн, айдентика, дизайн-системы", about_title:"О себе", designer_about:"Графический и бренд-дизайнер, 4 года в брендинге и айдентике: аудит и бенчмаркинг, брендбук, паттерны и макеты упаковки, дизайн-системы в Figma. Вела проекты и команды из 3–4 junior-дизайнеров; концепция для «Карты вкусов» выбрана заказчиком из примерно десяти. Веду клиента от брифа и сметы до печати. Использую нейросети в работе и обучила им 8 групп. Магистр цифрового искусства (ДВФУ, диплом с отличием).", behance_works:"Работы на Behance", skills_title:"Навыки", skill_branding:"<strong>Брендинг:</strong> логотип, фирменный стиль, брендбук, паттерны, дизайн упаковки, Tone of Voice, аудит и бенчмаркинг.", skill_design:"<strong>Дизайн:</strong> типографика, вёрстка, полиграфия, презентации, векторная графика, веб-дизайн (прототип лендинга).", skill_tools:"<strong>Инструменты:</strong> Figma (компоненты, прототипирование, Auto Layout: базовый уровень), Adobe Photoshop, Illustrator, InDesign, PowerPoint, Blender.", skill_ai:"<strong>Нейросети (с 2022):</strong> Midjourney, Jimeng, Tripo AI, Runway, Suno, ChatGPT, Claude, Gemini; промпт-инжиниринг.", skill_management:"<strong>Управление проектами:</strong> работа по ТЗ и брифу, смета, руководство командой.", experience_title:"Опыт работы", ktr_location:"(бренд одежды, Владивосток)", ktr_desc:"Куратор и ведущий дизайнер. Смета, ведение клиента, команда из 3 junior-дизайнеров. Аудит, бенчмаркинг, брендбук (позиционирование, архетипы, логотип, палитра, паттерны на азбуке Морзе, носители); довела до печати принтов на футболках.", karta_name:"«Карта вкусов»", karta_location:"(заказчик ДВФУ)", karta_desc:"Куратор и ведущий дизайнер. Концепция выбрана заказчиком из примерно десяти; защитила и презентовала. Команда из 4 junior-дизайнеров. Система паттернов на пакетах, сумках, упаковке еды, транспорте доставки; макеты и брендбук переданы заказчику.", antro_name:"«Антропопрактика»", antro_desc:"Логотип, палитра, шрифты, паттерн; печать для конференции; работа с типографией в Москве. Повторный заказ: дизайн-система в Figma для карточек курсов (5 вариантов за 1,5 месяца), которую владельцы редактируют сами. Положительный отзыв.", lestnica_name:"«Лестница»", lestnica_location:"(школа, Севастополь)", lestnica_desc:"Логотип, палитра, паттерн, макеты для печати, оформление страницы ВК; вела группу ВК, адаптируя макеты.", shpinat_name:"«Шпинатная история»", shpinat_desc:"Аудит бренда и соцсетей, бенчмаркинг 6–7 конкурентов, рекомендации по стилю и контенту.", first_projects_name:"Первые проекты", first_projects_desc:"Фирменный стиль университетского буфета", vkusnaya_name:"«Вкусная история»", first_projects_desc2:"(СевГУ); брендинг и брендбук магазина детской одежды", dochkam_name:"«Дочкам сынкам»", teaching_title:"Преподавание", rgisi_name:"Школа креативных индустрий (РГИСИ)", rgisi_period:"сентябрь 2025 – июль 2026", rgisi_location:"Куратор студии, преподаватель, Владивосток", rgisi_desc:"Руководила проектом настольной игры «Покорители сопок» с 8 учениками: 600 карт, геймдизайн-документ, визуальная система (паттерн по высотам сопок), фигурки (рисунок → Tripo AI → Blender → 3D-печать). Участие в конкурсе «Родная игрушка 2026», образец направлен организаторам. Провела очный курс «В начале был промпт» (9 акад. часов; Midjourney, Jimeng, промпт-инжиниринг): 2 группы взрослых, 6 детских (12.2025 и 04.2026).", rgisi_desc_full:"Авторский интенсивный курс: генеративный AI (нейросети и промптинг), цифровое проектирование (3D, Blender), дополненная и виртуальная реальность (AR/VR). Полный цикл создания проекта: от идеи до публичной защиты за 3 недели. Студенты становятся не просто пользователями, а творцами цифровой среды.", contests_title:"Конкурсы", young_design_name:"VI федеральный конкурс «Дизайн молодых / Young Design 2025»", young_design_desc:"сезон 2024–2025 (задание Газпром Нефти): лендинг, Figma-прототип, предзащита и защита.", education_title:"Образование", dvfu_desc:"Магистратура, Цифровое искусство, диплом с отличием (защита: июль 2026)", sevsu_desc:"Бакалавриат, Дизайн среды, с отличием", faberge_name:"Санкт-Петербургский художественно-профессиональный лицей имени Карла Фаберже", faberge_desc:"Ювелирное дело (ювелир 4-го разряда, огранщик 3-го разряда), среднее специальное", courses_title:"Курсы", course_ai_name:"Нейронные сети и искусственный интеллект для решения творческих задач в креативных индустриях", course_ai_desc:"СПбГИКиТ, 36 ч, повышение квалификации", course_marketing_name:"Цифровой маркетинг", course_marketing_desc:"ДВФУ, профессиональная переподготовка, квалификация «Специалист по интернет-маркетингу»", course_pedagogy_name:"Педагогика дополнительного образования детей и взрослых", course_pedagogy_desc:"Профессиональная переподготовка, 600 ч, квалификация «Педагог дополнительного образования детей и взрослых»", languages_title:"Языки", lang_en:"Английский: B1", lang_cn:"Китайский: A1", contact_title:"Давайте обсудим ваш проект", contact_desc:"Открыта к новым задачам и интересным коллаборациям. Отвечаю в течение дня. Выбирайте удобный способ связи:", contact_tg:"Написать в Telegram", contact_email:"Отправить письмо на почту", contact_vk:"Моя страница ВК", contact_or:"Или скачайте моё", contact_cv:"резюме в PDF", contact_share:"чтобы поделиться им с командой.", artist_title:"Цифровая медиахудожница", artist_subtitle:"Медиаинсталляция, интерактивное искусство, генеративная графика, саунд-арт, тактильный урбанизм", bio_title:"Био", artist_bio1:"Дарья Чупрынина — медиахудожница и исследовательница, работающая на пересечении цифрового и материального. Её метод сформирован сочетанием традиционного ремесла и цифровых технологий: опыт работы с горячей эмалью заложил основу понимания материала и цвета, который теперь трансформируется в digital-практиках.", artist_bio2:"Исследует темы памяти места, тактильного опыта и трансформации идентичности в условиях смены локаций, от Санкт-Петербурга через Заполярье до Владивостока. Магистр цифрового искусства ДВФУ (2024–2026).", statement_title:"Заявление художника", statement_p1:"Моя художественная практика исследует память места как телесный опыт, где тактильность становится языком диалога между человеком и средой. Восьмилетнее погружение в искусство горячей эмали сформировало моё понимание материи как носителя времени и памяти.", statement_p2:"В основе метода лежит принцип «сканирования реальности»: документация скрытых паттернов в архитектурных ритмах, фиксация тактильных следов ландшафта и преобразование звуковой атмосферы в интерактивные карты.", statement_p3:"Моя цель — создать визуальный язык, позволяющий ощутить фундаментальную связь человека и среды, преодолевая отчуждение современного урбанизированного мира.", gallery_title:"Галерея работ", key_project_title:"Ключевые проекты", key_project_name:"Город как текстура | Калейдоскопический глаз", key_project_type:"Дипломный проект, магистратура ДВФУ", key_project_desc:"Интерактивный веб-архив и медиаинсталляция, исследующая тактильную память Владивостока. Проект собирает текстуры городских поверхностей — стены, асфальт, фасады, следы времени — как форму материальной памяти города. Метод «художественного сканирования» превращает фрагменты городской ткани в генеративные паттерны и звуковые ландшафты, создавая гипнотический цифровой образ — «Калейдоскопический глаз». Зритель здесь не турист, а исследователь, читающий город через его слои.", exhibitions_title:"Выставки и признание", science_title:"Научная деятельность", science_media_placeholder:"Место для фото диплома", science_article_title:"Исследование новых форм в медиаискусстве с использованием больших данных, алгоритмов и искусственного интеллекта", science_author:"Автор: Чупрынина Дарья Андреевна, студент ДВФУ", science_achievement:"Диплом III степени на 14-й Международной молодёжной научной конференции «Молодёжь и XXI век — 2025» (г. Курск, 20–21 февраля 2025 г.)", tools_title:"Инструменты", tool_interactive_label:"Интерактивные среды:", tool_interactive:"TouchDesigner, VVVV, Resolume Arena", tool_3d_label:"3D-моделирование:", tool_3d:"Blender, 3D Max, Rhinoceros 3D, SketchUp", tool_design_label:"Графический дизайн:", tool_design:"Adobe Creative Cloud, Figma", tool_gis_label:"ГИС и данные:", tool_gis:"QGIS", tool_ai_label:"Нейросети:", tool_ai:"Midjourney, Jimeng (即梦AI), Stable Diffusion, ChatGPT, Deepseek, Tripo AI, Runway, Suno", tool_video_label:"Видеомонтаж:", tool_video:"Premiere Pro, OBS Studio", tool_game_label:"Игровые движки:", tool_game:"Unreal Engine", wip_badge:"В разработке", team_label:"Командный проект", thesis_label:"Преддипломный проект", modal_media_placeholder:"Место для фото / видео", course_label:"Дисциплина", tutor_label:"Преподаватель", view_link:"Смотреть публикацию"
   },
   en: {
-    name: "Daria Chuprynina",
-    tagline: "Graphic Designer & Digital Media Artist",
-    designer_btn: "Graphic Designer",
-    artist_btn: "Digital Media Artist",
-    location: "Saint Petersburg | Office | Open to business trips",
-    download_cv: "Download CV (PDF)",
-    designer_title: "Graphic Designer",
-    designer_subtitle: "Brand design, visual identity, design systems",
-    about_title: "About",
-    designer_about: "Graphic and brand designer with 4 years of experience in branding and visual identity: audits and benchmarking, brand books, patterns and packaging layouts, design systems in Figma. Led projects and teams of 3–4 junior designers; the concept for \"Taste Map\" was selected by the client from approximately ten options. I guide clients from brief and budget to print. I use neural networks in my work and have trained 8 groups. Master's degree in Digital Art (FEFU, graduated with honors).",
-    behance_works: "Works on Behance",
-    skills_title: "Skills",
-    skill_branding: "<strong>Branding:</strong> logo, visual identity, brand book, patterns, packaging design, Tone of Voice, audit and benchmarking.",
-    skill_design: "<strong>Design:</strong> typography, layout, print design, presentations, vector graphics, web design (landing page prototypes).",
-    skill_tools: "<strong>Tools:</strong> Figma (components, prototyping, Auto Layout: basic level), Adobe Photoshop, Illustrator, InDesign, PowerPoint, Blender.",
-    skill_ai: "<strong>AI Tools (since 2022):</strong> Midjourney, Jimeng, Tripo AI, Runway, Suno, ChatGPT, Claude, Gemini; prompt engineering.",
-    skill_management: "<strong>Project Management:</strong> working with briefs and technical specifications, budgeting, team leadership.",
-    experience_title: "Experience",
-    ktr_location: "(fashion brand, Vladivostok)",
-    ktr_desc: "Curator and lead designer. Budget management, client relations, team of 3 junior designers. Audit, benchmarking, brand book (positioning, archetypes, logo, palette, Morse code patterns, brand applications); brought T-shirt prints to production.",
-    karta_name: "Taste Map",
-    karta_location: "(client: FEFU)",
-    karta_desc: "Curator and lead designer. Concept selected by the client from approximately ten options; defended and presented. Team of 4 junior designers. Pattern system for bags, packaging, food containers, delivery vehicles; layouts and brand book delivered to client.",
-    antro_name: "Antropopraktika",
-    antro_desc: "Logo, palette, typography, pattern; print materials for conference; collaboration with Moscow print house. Repeat commission: Figma design system for course cards (5 variants in 1.5 months), which the owners edit themselves. Positive feedback received.",
-    lestnica_name: "Lestnitsa (Staircase)",
-    lestnica_location: "(school, Sevastopol)",
-    lestnica_desc: "Logo, palette, pattern, print layouts, VK page design; managed VK group, adapting layouts.",
-    shpinat_name: "Shpinatnaya Istoriya (Spinach Story)",
-    shpinat_desc: "Brand and social media audit, benchmarking of 6–7 competitors, style and content recommendations.",
-    first_projects_name: "Early Projects",
-    first_projects_desc: "Visual identity for university cafeteria",
-    vkusnaya_name: "Vkusnaya Istoriya (Tasty Story)",
-    first_projects_desc2: "(SevSU); branding and brand book for children's clothing store",
-    dochkam_name: "Dochkam Synkam (For Daughters and Sons)",
-    teaching_title: "Teaching",
-    rgisi_name: "School of Creative Industries (RGISI)",
-    rgisi_period: "September 2025 – July 2026",
-    rgisi_location: "Studio curator, instructor, Vladivostok",
-    rgisi_desc: "Led the board game project \"Sopka Conquerors\" with 8 students: 600 cards, game design document, visual system (pattern based on sopka elevations), figurines (drawing → Tripo AI → Blender → 3D printing). Participated in \"Rodnaya Igrushka 2026\" competition, prototype submitted to organizers. Conducted in-person course \"In the Beginning Was the Prompt\" (9 academic hours; Midjourney, Jimeng, prompt engineering): 2 adult groups, 6 children's groups (12.2025 and 04.2026).",
-    contests_title: "Competitions",
-    young_design_name: "VI Federal Competition \"Young Design 2025\"",
-    young_design_desc: "2024–2025 season (Gazprom Neft brief): landing page, Figma prototype, preliminary defense and final presentation.",
-    education_title: "Education",
-    dvfu_desc: "Master's degree, Digital Art, graduated with honors (defense: July 2026)",
-    sevsu_desc: "Bachelor's degree, Environmental Design, graduated with honors",
-    faberge_name: "Saint Petersburg Art and Vocational Lyceum named after Karl Fabergé",
-    faberge_desc: "Jewelry arts (4th grade jeweler, 3rd grade gem cutter), vocational secondary education",
-    courses_title: "Courses",
-    course_ai_name: "Neural Networks and AI for Creative Problem-Solving in Creative Industries",
-    course_ai_desc: "SPbGIKiT, 36 hours, professional development",
-    course_marketing_name: "Digital Marketing",
-    course_marketing_desc: "FEFU, professional retraining, qualification \"Internet Marketing Specialist\"",
-    course_pedagogy_name: "Pedagogy of Supplementary Education for Children and Adults",
-    course_pedagogy_desc: "Professional retraining, 600 hours, qualification \"Supplementary Education Teacher for Children and Adults\"",
-    languages_title: "Languages",
-    lang_en: "English: B1",
-    lang_cn: "Chinese: A1",
-    contact_title: "Let's discuss your project",
-    contact_desc: "Open to new challenges and interesting collaborations. I respond within a day. Choose your preferred way to connect:",
-    contact_tg: "Message on Telegram",
-    contact_email: "Send an email",
-    contact_vk: "My VK Page",
-    contact_or: "Or download my",
-    contact_cv: "CV in PDF",
-    contact_share: "to share it with your team.",
-    artist_title: "Digital Media Artist",
-    artist_subtitle: "Media installation, interactive art, generative graphics, sound art, tactile urbanism",
-    bio_title: "Bio",
-    artist_bio1: "Daria Chuprynina is a media artist and researcher working at the intersection of the digital and the material. Her method is shaped by the combination of traditional craft and digital technologies: her experience with hot enamel laid the foundation for understanding material and color, which now transforms in digital practices.",
-    artist_bio2: "She explores themes of memory of place, tactile experience, and identity transformation through changing locations, from Saint Petersburg through the Arctic to Vladivostok. Master's degree in Digital Art from FEFU (2024–2026).",
-    statement_title: "Artist Statement",
-    statement_p1: "My artistic practice explores the memory of place as a bodily experience, where tactility becomes the language of dialogue between human and environment. Eight years of immersion in the art of hot enamel shaped my understanding of matter as a carrier of time and memory.",
-    statement_p2: "At the core of my method is the principle of \"scanning reality\": documenting hidden patterns in architectural rhythms, recording tactile traces of the landscape, and transforming sound atmospheres into interactive maps.",
-    statement_p3: "My goal is to create a visual language that allows one to feel the fundamental connection between human and environment, overcoming the alienation of the modern urbanized world.",
-    projects_title: "Key Projects",
-    project_city_name: "City as Texture | Kaleidoscopic Eye",
-    project_city_desc: "Interactive digital archive and media installation exploring the tactile memory of Vladivostok through scanning and visualization of urban surfaces. (Master's thesis project)",
-    exhibitions_title: "Exhibitions",
-    exhibition_between: "\"Between Houses\", FEFU Art Museum, VDK, 2024",
-    exhibition_museum: "\"Museum Night\", Arseniev Museum, VDK, 2024",
-    exhibition_land: "\"The Land That Was Not\", \"Russia - My History\" Museum, VDK, 2026",
-    gallery_title: "Gallery",
-    gallery1_name: "City as Texture / Kaleidoscopic Eye",
-    gallery1_type: "Interactive installation, 2024–2026",
-    gallery2_type: "Interactive 3D soundscape map, 2024",
-    wip_title: "In Progress",
-    wip_desc: "Other archive projects are being digitized and will be added later.",
-    tools_title: "Tools",
-    tools_desc: "TouchDesigner, VVVV, Resolume Arena, Blender, Unreal Engine, QGIS, Figma, Adobe Creative Cloud, Premiere Pro, AI tools."
+    name:"Daria Chuprynina", tagline:"Graphic Designer & Digital Media Artist", designer_btn:"Graphic Designer", artist_btn:"Digital Media Artist", location:"Saint Petersburg | Office | Open to business trips", download_cv:"Download CV (PDF)", designer_title:"Graphic Designer", designer_subtitle:"Brand design, visual identity, design systems", about_title:"About", designer_about:"Graphic and brand designer with 4 years of experience in branding and visual identity: audits and benchmarking, brand books, patterns and packaging layouts, design systems in Figma. Led projects and teams of 3–4 junior designers; the concept for \"Taste Map\" was selected by the client from approximately ten options. I guide clients from brief and budget to print. I use neural networks in my work and have trained 8 groups. Master's degree in Digital Art (FEFU, graduated with honors).", behance_works:"Works on Behance", skills_title:"Skills", skill_branding:"<strong>Branding:</strong> logo, visual identity, brand book, patterns, packaging design, Tone of Voice, audit and benchmarking.", skill_design:"<strong>Design:</strong> typography, layout, print design, presentations, vector graphics, web design (landing page prototypes).", skill_tools:"<strong>Tools:</strong> Figma (components, prototyping, Auto Layout: basic level), Adobe Photoshop, Illustrator, InDesign, PowerPoint, Blender.", skill_ai:"<strong>AI Tools (since 2022):</strong> Midjourney, Jimeng, Tripo AI, Runway, Suno, ChatGPT, Claude, Gemini; prompt engineering.", skill_management:"<strong>Project Management:</strong> working with briefs and technical specifications, budgeting, team leadership.", experience_title:"Experience", ktr_location:"(fashion brand, Vladivostok)", ktr_desc:"Curator and lead designer. Budget management, client relations, team of 3 junior designers. Audit, benchmarking, brand book (positioning, archetypes, logo, palette, Morse code patterns, brand applications); brought T-shirt prints to production.", karta_name:"Taste Map", karta_location:"(client: FEFU)", karta_desc:"Curator and lead designer. Concept selected by the client from approximately ten options; defended and presented. Team of 4 junior designers. Pattern system for bags, packaging, food containers, delivery vehicles; layouts and brand book delivered to client.", antro_name:"Antropopraktika", antro_desc:"Logo, palette, typography, pattern; print materials for conference; collaboration with Moscow print house. Repeat commission: Figma design system for course cards (5 variants in 1.5 months), which the owners edit themselves. Positive feedback received.", lestnica_name:"Lestnitsa (Staircase)", lestnica_location:"(school, Sevastopol)", lestnica_desc:"Logo, palette, pattern, print layouts, VK page design; managed VK group, adapting layouts.", shpinat_name:"Shpinatnaya Istoriya (Spinach Story)", shpinat_desc:"Brand and social media audit, benchmarking of 6–7 competitors, style and content recommendations.", first_projects_name:"Early Projects", first_projects_desc:"Visual identity for university cafeteria", vkusnaya_name:"Vkusnaya Istoriya (Tasty Story)", first_projects_desc2:"(SevSU); branding and brand book for children's clothing store", dochkam_name:"Dochkam Synkam (For Daughters and Sons)", teaching_title:"Teaching", rgisi_name:"School of Creative Industries (RGISI)", rgisi_period:"September 2025 – July 2026", rgisi_location:"Studio curator, instructor, Vladivostok", rgisi_desc:"Led the board game project \"Sopka Conquerors\" with 8 students: 600 cards, game design document, visual system (pattern based on sopka elevations), figurines (drawing → Tripo AI → Blender → 3D printing). Participated in \"Rodnaya Igrushka 2026\" competition, prototype submitted to organizers. Conducted in-person course \"In the Beginning Was the Prompt\" (9 academic hours; Midjourney, Jimeng, prompt engineering): 2 adult groups, 6 children's groups (12.2025 and 04.2026).", rgisi_desc_full:"Author's intensive course: generative AI (neural networks and prompting), digital design (3D, Blender), augmented and virtual reality (AR/VR). Full project cycle: from idea to public defense in 3 weeks. Students become not just users, but creators of the digital environment.", contests_title:"Competitions", young_design_name:"VI Federal Competition \"Young Design 2025\"", young_design_desc:"2024–2025 season (Gazprom Neft brief): landing page, Figma prototype, preliminary defense and final presentation.", education_title:"Education", dvfu_desc:"Master's degree, Digital Art, graduated with honors (defense: July 2026)", sevsu_desc:"Bachelor's degree, Environmental Design, graduated with honors", faberge_name:"Saint Petersburg Art and Vocational Lyceum named after Karl Fabergé", faberge_desc:"Jewelry arts (4th grade jeweler, 3rd grade gem cutter), vocational secondary education", courses_title:"Courses", course_ai_name:"Neural Networks and AI for Creative Problem-Solving in Creative Industries", course_ai_desc:"SPbGIKiT, 36 hours, professional development", course_marketing_name:"Digital Marketing", course_marketing_desc:"FEFU, professional retraining, qualification \"Internet Marketing Specialist\"", course_pedagogy_name:"Pedagogy of Supplementary Education for Children and Adults", course_pedagogy_desc:"Professional retraining, 600 hours, qualification \"Supplementary Education Teacher for Children and Adults\"", languages_title:"Languages", lang_en:"English: B1", lang_cn:"Chinese: A1", contact_title:"Let's discuss your project", contact_desc:"Open to new challenges and interesting collaborations. I respond within a day. Choose your preferred way to connect:", contact_tg:"Message on Telegram", contact_email:"Send an email", contact_vk:"My VK Page", contact_or:"Or download my", contact_cv:"CV in PDF", contact_share:"to share it with your team.", artist_title:"Digital Media Artist", artist_subtitle:"Media installation, interactive art, generative graphics, sound art, tactile urbanism", bio_title:"Bio", artist_bio1:"Daria Chuprynina is a media artist and researcher working at the intersection of the digital and the material. Her method is shaped by the combination of traditional craft and digital technologies: her experience with hot enamel laid the foundation for understanding material and color, which now transforms in digital practices.", artist_bio2:"She explores themes of memory of place, tactile experience, and identity transformation through changing locations, from Saint Petersburg through the Arctic to Vladivostok. Master's degree in Digital Art from FEFU (2024–2026).", statement_title:"Artist Statement", statement_p1:"My artistic practice explores the memory of place as a bodily experience, where tactility becomes the language of dialogue between human and environment. Eight years of immersion in the art of hot enamel shaped my understanding of matter as a carrier of time and memory.", statement_p2:"At the core of my method is the principle of \"scanning reality\": documenting hidden patterns in architectural rhythms, recording tactile traces of the landscape, and transforming sound atmospheres into interactive maps.", statement_p3:"My goal is to create a visual language that allows one to feel the fundamental connection between human and environment, overcoming the alienation of the modern urbanized world.", gallery_title:"Gallery of Works", key_project_title:"Key Projects", key_project_name:"City as Texture | Kaleidoscopic Eye", key_project_type:"Master's thesis project, FEFU", key_project_desc:"An interactive web archive and media installation exploring the tactile memory of Vladivostok. The project collects textures of urban surfaces — walls, asphalt, facades, traces of time — as a form of the city's material memory. The method of \"artistic scanning\" transforms fragments of the urban fabric into generative patterns and soundscapes, creating a hypnotic digital image — the \"Kaleidoscopic Eye\". The viewer here is not a tourist, but a researcher reading the city through its layers.", exhibitions_title:"Exhibitions & Recognition", science_title:"Research", science_media_placeholder:"Photo of the diploma", science_article_title:"Research of New Forms in Media Art Using Big Data, Algorithms and Artificial Intelligence", science_author:"Author: Darya A. Chuprynina, student of FEFU", science_achievement:"3rd degree diploma at the 14th International Youth Scientific Conference \"Youth and the 21st Century — 2025\" (Kursk, February 20–21, 2025)", tools_title:"Tools", tool_interactive_label:"Interactive environments:", tool_interactive:"TouchDesigner, VVVV, Resolume Arena", tool_3d_label:"3D modeling:", tool_3d:"Blender, 3D Max, Rhinoceros 3D, SketchUp", tool_design_label:"Graphic design:", tool_design:"Adobe Creative Cloud, Figma", tool_gis_label:"GIS and data:", tool_gis:"QGIS", tool_ai_label:"Neural networks:", tool_ai:"Midjourney, Jimeng (即梦AI), Stable Diffusion, ChatGPT, Deepseek, Tripo AI, Runway, Suno", tool_video_label:"Video editing:", tool_video:"Premiere Pro, OBS Studio", tool_game_label:"Game engines:", tool_game:"Unreal Engine", wip_badge:"In development", team_label:"Team project", thesis_label:"Thesis project", modal_media_placeholder:"Space for photo / video", course_label:"Course", tutor_label:"Tutor", view_link:"View publication"
   }
 };
+
+// ===== ГЕНЕРАЦИЯ ГАЛЕРЕИ =====
+function renderGallery(lang) {
+  const gallery = document.getElementById('works-gallery');
+  const works = WORKS[lang];
+  gallery.innerHTML = works.map(w => `
+    <div class="gallery-item" data-work-id="${w.id}">
+      <span class="wip-badge" data-i18n="wip_badge">${T[lang].wip_badge}</span>
+      <div class="gallery-item-inner">
+        <div class="pulse-icon"></div>
+        <h4>${w.title}</h4>
+        <span class="year">${w.year}</span>
+        ${w.team && w.team.split(',').length > 1 ? `<span class="team-badge" data-i18n="team_label">${T[lang].team_label}</span>` : ''}
+        ${w.isThesis ? `<span class="team-badge" data-i18n="thesis_label">${T[lang].thesis_label}</span>` : ''}
+      </div>
+    </div>
+  `).join('');
+  
+  // Обработчики клика
+  gallery.querySelectorAll('.gallery-item').forEach(item => {
+    item.addEventListener('click', () => openModal(item.dataset.workId, lang));
+  });
+}
+
+// ===== ГЕНЕРАЦИЯ ВЫСТАВОК =====
+function renderExhibitions(lang) {
+  const list = document.getElementById('exhibitions-list');
+  const exhibitions = EXHIBITIONS[lang];
+  list.innerHTML = exhibitions.map(e => `
+    <div class="exhibition-item">
+      <div class="exhibition-header">
+        <span class="exhibition-year">${e.year}</span>
+        <span class="exhibition-name">${e.name}</span>
+      </div>
+      <div class="exhibition-place">${e.place}</div>
+      <div class="exhibition-cert">${e.cert}</div>
+    </div>
+  `).join('');
+}
+
+// ===== МОДАЛЬНОЕ ОКНО =====
+const modalOverlay = document.getElementById('modal-overlay');
+const modalClose = document.getElementById('modal-close');
+
+function openModal(workId, lang) {
+  const work = WORKS[lang].find(w => w.id === workId);
+  if (!work) return;
+  
+  document.getElementById('modal-title').textContent = work.title;
+  document.getElementById('modal-year').textContent = work.year;
+  document.getElementById('modal-type').textContent = work.type;
+  document.getElementById('modal-media').textContent = T[lang].modal_media_placeholder;
+  document.getElementById('modal-description').innerHTML = `<p>${work.desc}</p>` + 
+    (work.course ? `<p style="color:var(--gray);font-size:14px;margin-top:16px"><strong>${T[lang].course_label}:</strong> ${work.course}</p>` : '') +
+    (work.tutor ? `<p style="color:var(--gray);font-size:14px"><strong>${T[lang].tutor_label}:</strong> ${work.tutor}</p>` : '') +
+    (work.link ? `<p style="margin-top:16px"><a href="${work.link}" target="_blank" rel="noopener" style="border-bottom:1px dashed var(--gray)">${T[lang].view_link} →</a></p>` : '');
+  document.getElementById('modal-authors').innerHTML = `<strong>${lang === 'ru' ? 'Авторы' : 'Authors'}:</strong> ${work.team}`;
+  
+  modalOverlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  modalOverlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+modalClose.addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', (e) => {
+  if (e.target === modalOverlay) closeModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modalOverlay.classList.contains('active')) closeModal();
+});
 
 // ===== ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА =====
 function setLang(lang) {
@@ -554,23 +662,19 @@ function setLang(lang) {
     btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
   });
   const titles = {
-    ru: {
-      designer: 'Графический дизайнер | Дарья Чупрынина',
-      artist: 'Цифровая медиахудожница | Дарья Чупрынина',
-      home: 'Дарья Чупрынина | Портфолио'
-    },
-    en: {
-      designer: 'Graphic Designer | Daria Chuprynina',
-      artist: 'Digital Media Artist | Daria Chuprynina',
-      home: 'Daria Chuprynina | Portfolio'
-    }
+    ru: { designer: 'Графический дизайнер | Дарья Чупрынина', artist: 'Цифровая медиахудожница | Дарья Чупрынина', home: 'Дарья Чупрынина | Портфолио' },
+    en: { designer: 'Graphic Designer | Daria Chuprynina', artist: 'Digital Media Artist | Daria Chuprynina', home: 'Daria Chuprynina | Portfolio' }
   };
   const currentPage = document.querySelector('.page.active')?.id || 'home';
   document.title = titles[lang][currentPage] || titles[lang].home;
   localStorage.setItem('preferred_language', lang);
+  
+  // Перерисовываем динамические блоки
+  renderGallery(lang);
+  renderExhibitions(lang);
 }
 
-// ===== НАВИГАЦИЯ МЕЖДУ СТРАНИЦАМИ =====
+// ===== НАВИГАЦИЯ =====
 const pages = ['home', 'designer', 'artist'];
 function show(name) {
   if (!pages.includes(name)) name = 'home';
@@ -578,16 +682,8 @@ function show(name) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
   const lang = localStorage.getItem('preferred_language') || 'ru';
   const titles = {
-    ru: {
-      designer: 'Графический дизайнер | Дарья Чупрынина',
-      artist: 'Цифровая медиахудожница | Дарья Чупрынина',
-      home: 'Дарья Чупрынина | Портфолио'
-    },
-    en: {
-      designer: 'Graphic Designer | Daria Chuprynina',
-      artist: 'Digital Media Artist | Daria Chuprynina',
-      home: 'Daria Chuprynina | Portfolio'
-    }
+    ru: { designer: 'Графический дизайнер | Дарья Чупрынина', artist: 'Цифровая медиахудожница | Дарья Чупрынина', home: 'Дарья Чупрынина | Портфолио' },
+    en: { designer: 'Graphic Designer | Daria Chuprynina', artist: 'Digital Media Artist | Daria Chuprynina', home: 'Daria Chuprynina | Portfolio' }
   };
   document.title = titles[lang][name] || titles[lang].home;
 }
@@ -601,14 +697,12 @@ document.querySelectorAll('[data-go]').forEach(el => {
 });
 window.addEventListener('hashchange', () => show(location.hash.slice(1)));
 
-// ===== ОБРАБОТЧИКИ ПЕРЕКЛЮЧАТЕЛЕЙ ЯЗЫКА =====
 document.querySelectorAll('.lang-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     setLang(btn.getAttribute('data-lang'));
   });
 });
 
-// ===== ЗАГРУЗКА СОХРАНЁННОГО ЯЗЫКА =====
 const savedLang = localStorage.getItem('preferred_language') || 'ru';
 setLang(savedLang);
 show(location.hash.slice(1));
@@ -639,40 +733,27 @@ show(location.hash.slice(1));
     const dist = Math.sqrt(dx * dx + dy * dy);
 
     if (dist > 8 && now - lastAddTime > 16) {
-      particles.push({
-        x: e.clientX,
-        y: e.clientY,
-        born: now,
-        size: 2 + Math.random() * 3
-      });
+      particles.push({ x: e.clientX, y: e.clientY, born: now, size: 2 + Math.random() * 3 });
       if (particles.length > MAX_PARTICLES) particles.shift();
-      lastX = e.clientX;
-      lastY = e.clientY;
-      lastAddTime = now;
+      lastX = e.clientX; lastY = e.clientY; lastAddTime = now;
     }
   });
 
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const now = performance.now();
-
     for (let i = particles.length - 1; i >= 0; i--) {
       const p = particles[i];
       const age = now - p.born;
-      if (age > LIFETIME) {
-        particles.splice(i, 1);
-        continue;
-      }
+      if (age > LIFETIME) { particles.splice(i, 1); continue; }
       const life = 1 - (age / LIFETIME);
       const alpha = life * 0.5;
       const size = p.size * life;
-
       ctx.beginPath();
       ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(255, 255, 255, ' + alpha + ')';
       ctx.fill();
     }
-
     requestAnimationFrame(animate);
   }
   animate();
