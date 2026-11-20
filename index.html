@@ -39,36 +39,11 @@
   .bar a:hover,.bar button:hover{border-bottom-color:var(--text)}
   .bar .name{font-weight:700;color:var(--gray);letter-spacing:0.08em}
   
- .lang-switch{
-  display:flex;
-  gap:6px;
-  padding:6px;
-  margin:0;
-  background:rgba(255,255,255,0.03);
-  border:1px solid var(--line);
-  border-radius:8px;
-}
-.lang-btn{
-  padding:8px 16px;
-  font-size:13px;
-  font-weight:700;
-  background:transparent;
-  color:var(--gray);
-  border:none;
-  border-radius:5px;
-  cursor:pointer;
-  transition:all .2s;
-  font-family:Arial,Helvetica,sans-serif;
-  letter-spacing:0.1em;
-  min-width:48px;
-}
-.lang-btn:hover{
-  color:var(--text);
-  background:rgba(255,255,255,0.05);
-}
-.lang-btn.active{
-  background:var(--text);
-  color:var(--bg);
+.lang-switch{display:flex;gap:0;margin:0}
+.lang-btn{padding:14px 22px;font-size:14px;font-weight:700;background:transparent;color:var(--text);border:1px solid var(--text);cursor:pointer;transition:all .2s;font-family:Arial,Helvetica,sans-serif;letter-spacing:0.04em}
+.lang-btn:hover{background:var(--text);color:var(--bg)}
+.lang-btn.active{background:var(--text);color:var(--bg)}
+.lang-btn + .lang-btn{margin-left:-1px}
 }
 
   .page{display:none;min-height:100vh}
@@ -135,7 +110,7 @@
     <div>
       <h1 data-i18n="name">Дарья Чупрынина</h1>
       <p class="tagline" data-i18n="tagline">Графический дизайнер и цифровая медиахудожница</p>
-      <div class="lang-switch" style="margin-bottom:24px">
+      <div class="lang-switch" style="margin-bottom:24px;width:fit-content">
         <button class="lang-btn active" data-lang="ru">РУС</button>
         <button class="lang-btn" data-lang="en">ENG</button>
       </div>
@@ -288,10 +263,10 @@
       <h2 style="margin-top: 0;" data-i18n="contact_title">Давайте обсудим ваш проект</h2>
       <p class="muted" style="margin-bottom: 24px;" data-i18n="contact_desc">Открыта к новым задачам и интересным коллаборациям. Отвечаю в течение дня. Выбирайте удобный способ связи:</p>
       
-      <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-        <a href="https://t.me/chudarray" target="_blank" rel="noopener" class="action-btn" style="background: var(--text); color: var(--bg);" data-i18n="contact_tg">
-          Написать в Telegram
-        </a>
+      <div style="display: flex; gap: 16px; flex-wrap: nowrap;">
+  <a href="https://t.me/chudarray" target="_blank" rel="noopener" class="action-btn" data-i18n="contact_tg">
+    Написать в Telegram
+  </a>
         <a href="mailto:chu.da.ai@yandex.ru" class="action-btn" data-i18n="contact_email">
           Отправить письмо на почту
         </a>
