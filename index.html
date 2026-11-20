@@ -9,7 +9,8 @@
   :root{--bg:#000;--text:#fff;--gray:#8a8a8a;--line:rgba(255,255,255,.15)}
   *{box-sizing:border-box;margin:0;padding:0}
   html{background:var(--bg)}
-  body{background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+  body{background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:1.6;letter-spacing:0.02em;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+  
   a{color:var(--text);text-decoration:none;transition:color .2s}
   a:hover{color:var(--gray)}
   a:focus-visible,button:focus-visible{outline:2px solid var(--text);outline-offset:4px}
@@ -24,24 +25,23 @@
     border-bottom-color: var(--text);
   }
   
-  h1,h2,h3{font-weight:700;color:var(--gray);line-height:1.2;font-family:Arial,Helvetica,sans-serif}
-  h1{font-size:clamp(36px,6vw,64px);letter-spacing:.01em;margin-bottom:12px}
+  /* Увеличенные отступы между буквами для премиального вида */
+  h1,h2,h3{font-weight:700;color:var(--gray);line-height:1.2;font-family:Arial,Helvetica,sans-serif;letter-spacing:0.06em}
+  h1{font-size:clamp(36px,6vw,64px);margin-bottom:12px}
   h2{font-size:24px;margin:48px 0 20px}
-  h3{font-size:18px;margin:0 0 4px 0;color:var(--text);font-weight:700}
+  h3{font-size:18px;margin:0 0 4px 0;color:var(--text);font-weight:700;letter-spacing:0.04em}
   
   p{max-width:70ch;margin-bottom:16px;font-family:Arial,Helvetica,sans-serif}
   .muted{color:var(--gray)}
   
-  /* Навигация с переключателем языка */
   .bar{display:flex;justify-content:space-between;align-items:center;padding:24px clamp(20px,5vw,64px);border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:10}
   .bar-left{display:flex;align-items:center;gap:24px}
-  .bar a,.bar button{background:none;border:none;color:var(--text);font-family:Arial,Helvetica,sans-serif;font-size:15px;cursor:pointer;text-decoration:none;padding:6px 0;border-bottom:1px solid transparent;transition:border-color .2s}
+  .bar a,.bar button{background:none;border:none;color:var(--text);font-family:Arial,Helvetica,sans-serif;font-size:15px;cursor:pointer;text-decoration:none;padding:6px 0;border-bottom:1px solid transparent;transition:border-color .2s;letter-spacing:0.05em}
   .bar a:hover,.bar button:hover{border-bottom-color:var(--text)}
-  .bar .name{font-weight:700;color:var(--gray)}
+  .bar .name{font-weight:700;color:var(--gray);letter-spacing:0.08em}
   
-  /* Переключатель языков */
   .lang-switch{display:flex;gap:0;border:1px solid var(--line);border-radius:4px;overflow:hidden}
-  .lang-btn{padding:6px 12px;font-size:13px;font-weight:700;background:transparent;color:var(--gray);border:none;cursor:pointer;transition:all .2s;font-family:Arial,Helvetica,sans-serif}
+  .lang-btn{padding:6px 14px;font-size:13px;font-weight:700;background:transparent;color:var(--gray);border:none;cursor:pointer;transition:all .2s;font-family:Arial,Helvetica,sans-serif;letter-spacing:0.1em}
   .lang-btn:hover{color:var(--text)}
   .lang-btn.active{background:var(--text);color:var(--bg)}
 
@@ -53,22 +53,22 @@
   #home.active{display:flex}
   .home-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(32px,6vw,96px);align-items:center;width:100%;max-width:1200px;margin:0 auto}
   .home-grid img{width:100%;max-height:80vh;object-fit:cover;object-position:top;display:block;border:1px solid var(--line)}
-  .tagline{color:var(--gray);margin:18px 0 40px;font-size:18px;font-family:Arial,Helvetica,sans-serif}
+  .tagline{color:var(--gray);margin:18px 0 40px;font-size:18px;font-family:Arial,Helvetica,sans-serif;letter-spacing:0.03em}
   .choices{display:flex;flex-direction:column;gap:16px;max-width:440px}
-  .choice{display:block;padding:20px 24px;border:1px solid var(--text);background:none;color:var(--text);font-family:Arial,Helvetica,sans-serif;font-size:18px;text-align:left;cursor:pointer;transition:all .2s}
+  .choice{display:block;padding:20px 24px;border:1px solid var(--text);background:none;color:var(--text);font-family:Arial,Helvetica,sans-serif;font-size:18px;text-align:left;cursor:pointer;transition:all .2s;letter-spacing:0.04em}
   .choice:hover{background:var(--text);color:#000}
 
   .intro{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:clamp(32px,5vw,80px);padding-top:48px}
   .intro img{width:100%;display:block;max-height:75vh;object-fit:cover;object-position:top;border:1px solid var(--line)}
-  .contacts{margin-top:24px;font-size:15px;color:var(--gray);font-family:Arial,Helvetica,sans-serif}
+  .contacts{margin-top:24px;font-size:15px;color:var(--gray);font-family:Arial,Helvetica,sans-serif;letter-spacing:0.02em}
   .contacts p{margin-bottom:6px}
   
-  .action-btn{display:inline-block;margin-top:16px;padding:16px 24px;border:1px solid var(--text);font-family:Arial,Helvetica,sans-serif;font-weight:700;font-size:15px;transition:all .2s;text-align:center}
+  .action-btn{display:inline-block;margin-top:16px;padding:16px 24px;border:1px solid var(--text);font-family:Arial,Helvetica,sans-serif;font-weight:700;font-size:15px;transition:all .2s;text-align:center;letter-spacing:0.04em}
   .action-btn:hover{background:var(--text);color:#000}
   
   .job{border-top:1px solid var(--line);padding-top:20px;margin-top:24px;max-width:70ch}
-  .job .period{color:var(--gray);font-size:15px;margin:0 0 8px 0;font-weight:400;font-family:Arial,Helvetica,sans-serif}
-  .job .location{color:var(--text);font-size:16px;margin:0 0 12px 0;font-family:Arial,Helvetica,sans-serif}
+  .job .period{color:var(--gray);font-size:15px;margin:0 0 8px 0;font-weight:400;font-family:Arial,Helvetica,sans-serif;letter-spacing:0.03em}
+  .job .location{color:var(--text);font-size:16px;margin:0 0 12px 0;font-family:Arial,Helvetica,sans-serif;letter-spacing:0.02em}
   .job p.desc{color:var(--text);font-size:16px;line-height:1.6;margin:0;font-family:Arial,Helvetica,sans-serif}
 
   ul.clean{list-style:none;max-width:70ch}
@@ -107,6 +107,13 @@
     <div>
       <h1 data-i18n="name">Дарья Чупрынина</h1>
       <p class="tagline" data-i18n="tagline">Графический дизайнер и цифровая медиахудожница</p>
+      
+      <!-- Переключатель языка на главной странице -->
+      <div class="lang-switch" style="margin-bottom: 24px;">
+        <button class="lang-btn active" data-lang="ru">РУС</button>
+        <button class="lang-btn" data-lang="en">ENG</button>
+      </div>
+
       <div class="choices">
         <button class="choice" data-go="designer" data-i18n="designer_btn">Графический дизайнер</button>
         <button class="choice" data-go="artist" data-i18n="artist_btn">Цифровая медиахудожница</button>
@@ -251,7 +258,7 @@
     <p style="margin-bottom:8px" data-i18n="lang_en">Английский: B1</p>
     <p style="margin-bottom:16px" data-i18n="lang_cn">Китайский: A1</p>
 
-    <!-- БЛОК КОНТАКТОВ -->
+    <!-- БЛОК КОНТАКТОВ ВНИЗУ СТРАНИЦЫ -->
     <div style="margin-top: 64px; padding-top: 48px; border-top: 1px solid var(--line); max-width: 70ch;">
       <h2 style="margin-top: 0;" data-i18n="contact_title">Давайте обсудим ваш проект</h2>
       <p class="muted" style="margin-bottom: 24px;" data-i18n="contact_desc">Открыта к новым задачам и интересным коллаборациям. Отвечаю в течение дня. Выбирайте удобный способ связи:</p>
@@ -262,6 +269,9 @@
         </a>
         <a href="mailto:chu.da.ai@yandex.ru" class="action-btn" data-i18n="contact_email">
           Отправить письмо на почту
+        </a>
+        <a href="https://vk.ru/chudarraya" target="_blank" rel="noopener" class="action-btn" data-i18n="contact_vk">
+          Моя страница ВК
         </a>
       </div>
       
@@ -301,7 +311,6 @@
         <h2 data-i18n="bio_title">Био</h2>
         <p data-i18n="artist_bio1">Дарья Чупрынина — медиахудожница и исследовательница, работающая на пересечении цифрового и материального. Её метод сформирован сочетанием традиционного ремесла и цифровых технологий: опыт работы с горячей эмалью заложил основу понимания материала и цвета, который теперь трансформируется в digital-практиках.</p>
         <p data-i18n="artist_bio2">Исследует темы памяти места, тактильного опыта и трансформации идентичности в условиях смены локаций, от Санкт-Петербурга через Заполярье до Владивостока. Магистр цифрового искусства ДВФУ (2024–2026).</p>
-        <a class="action-btn" href="https://www.behance.net/chudaai" target="_blank" rel="noopener" data-i18n="behance_art">Художественное портфолио на Behance</a>
       </div>
     </div>
 
@@ -416,6 +425,7 @@
       contact_desc: "Открыта к новым задачам и интересным коллаборациям. Отвечаю в течение дня. Выбирайте удобный способ связи:",
       contact_tg: "Написать в Telegram",
       contact_email: "Отправить письмо на почту",
+      contact_vk: "Моя страница ВК",
       contact_or: "Или скачайте моё",
       contact_cv: "резюме в PDF",
       contact_share: "чтобы поделиться им с командой.",
@@ -509,6 +519,7 @@
       contact_desc: "Open to new challenges and interesting collaborations. I respond within a day. Choose your preferred way to connect:",
       contact_tg: "Message on Telegram",
       contact_email: "Send an email",
+      contact_vk: "My VK Page",
       contact_or: "Or download my",
       contact_cv: "CV in PDF",
       contact_share: "to share it with your team.",
@@ -517,7 +528,6 @@
       bio_title: "Bio",
       artist_bio1: "Daria Chuprynina is a media artist and researcher working at the intersection of the digital and the material. Her method is shaped by the combination of traditional craft and digital technologies: her experience with hot enamel laid the foundation for understanding material and color, which now transforms in digital practices.",
       artist_bio2: "She explores themes of memory of place, tactile experience, and identity transformation through changing locations, from Saint Petersburg through the Arctic to Vladivostok. Master's degree in Digital Art from FEFU (2024–2026).",
-      behance_art: "Art portfolio on Behance",
       statement_title: "Artist Statement",
       statement_p1: "My artistic practice explores the memory of place as a bodily experience, where tactility becomes the language of dialogue between human and environment. Eight years of immersion in the art of hot enamel shaped my understanding of matter as a carrier of time and memory.",
       statement_p2: "At the core of my method is the principle of \"scanning reality\": documenting hidden patterns in architectural rhythms, recording tactile traces of the landscape, and transforming sound atmospheres into interactive maps.",
@@ -541,7 +551,6 @@
     }
   };
 
-  // Функция переключения языка
   function setLanguage(lang) {
     document.documentElement.lang = lang;
     document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -550,52 +559,27 @@
         el.innerHTML = translations[lang][key];
       }
     });
-    
-    // Обновить активную кнопку языка
     document.querySelectorAll('.lang-btn').forEach(btn => {
       btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
     });
-    
-    // Обновить title страницы
     const titles = {
-      ru: {
-        designer: 'Графический дизайнер | Дарья Чупрынина',
-        artist: 'Цифровая медиахудожница | Дарья Чупрынина',
-        home: 'Дарья Чупрынина | Портфолио'
-      },
-      en: {
-        designer: 'Graphic Designer | Daria Chuprynina',
-        artist: 'Digital Media Artist | Daria Chuprynina',
-        home: 'Daria Chuprynina | Portfolio'
-      }
+      ru: { designer: 'Графический дизайнер | Дарья Чупрынина', artist: 'Цифровая медиахудожница | Дарья Чупрынина', home: 'Дарья Чупрынина | Портфолио' },
+      en: { designer: 'Graphic Designer | Daria Chuprynina', artist: 'Digital Media Artist | Daria Chuprynina', home: 'Daria Chuprynina | Portfolio' }
     };
-    
     const currentPage = document.querySelector('.page.active')?.id || 'home';
     document.title = titles[lang][currentPage] || titles[lang].home;
-    
-    // Сохранить выбор
     localStorage.setItem('preferred_language', lang);
   }
 
-  // Навигация между страницами
   const pages = ['home','designer','artist'];
   function show(name){
     if(!pages.includes(name)) name = 'home';
     pages.forEach(p => document.getElementById(p).classList.toggle('active', p === name));
     window.scrollTo({top: 0, behavior: 'smooth'});
-    
     const lang = localStorage.getItem('preferred_language') || 'ru';
     const titles = {
-      ru: {
-        designer: 'Графический дизайнер | Дарья Чупрынина',
-        artist: 'Цифровая медиахудожница | Дарья Чупрынина',
-        home: 'Дарья Чупрынина | Портфолио'
-      },
-      en: {
-        designer: 'Graphic Designer | Daria Chuprynina',
-        artist: 'Digital Media Artist | Daria Chuprynina',
-        home: 'Daria Chuprynina | Portfolio'
-      }
+      ru: { designer: 'Графический дизайнер | Дарья Чупрынина', artist: 'Цифровая медиахудожница | Дарья Чупрынина', home: 'Дарья Чупрынина | Портфолио' },
+      en: { designer: 'Graphic Designer | Daria Chuprynina', artist: 'Digital Media Artist | Daria Chuprynina', home: 'Daria Chuprynina | Portfolio' }
     };
     document.title = titles[lang][name] || titles[lang].home;
   }
@@ -607,28 +591,19 @@
       show(t);
     });
   });
-  
   window.addEventListener('hashchange', () => show(location.hash.slice(1)));
   
-  // Обработчики переключателей языка
   document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      setLanguage(btn.getAttribute('data-lang'));
-    });
+    btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
   });
 
-  // Загрузка сохранённого языка
   const savedLang = localStorage.getItem('preferred_language') || 'ru';
   setLanguage(savedLang);
-  
-  // Показать нужную страницу
   show(location.hash.slice(1));
 
-  // Шлейф курсора
   (function(){
     if('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
     if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
     const canvas = document.getElementById('cursor-trail');
     const ctx = canvas.getContext('2d');
     const particles = [];
@@ -648,42 +623,28 @@
       const dx = e.clientX - lastX;
       const dy = e.clientY - lastY;
       const dist = Math.sqrt(dx*dx + dy*dy);
-
       if(dist > 8 && now - lastAddTime > 16){
-        particles.push({
-          x: e.clientX,
-          y: e.clientY,
-          born: now,
-          size: 2 + Math.random() * 3
-        });
+        particles.push({ x: e.clientX, y: e.clientY, born: now, size: 2 + Math.random() * 3 });
         if(particles.length > MAX_PARTICLES) particles.shift();
-        lastX = e.clientX;
-        lastY = e.clientY;
-        lastAddTime = now;
+        lastX = e.clientX; lastY = e.clientY; lastAddTime = now;
       }
     });
 
     function animate(){
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const now = performance.now();
-
       for(let i = particles.length - 1; i >= 0; i--){
         const p = particles[i];
         const age = now - p.born;
-        if(age > LIFETIME){
-          particles.splice(i, 1);
-          continue;
-        }
+        if(age > LIFETIME){ particles.splice(i, 1); continue; }
         const life = 1 - (age / LIFETIME);
         const alpha = life * 0.5;
         const size = p.size * life;
-
         ctx.beginPath();
         ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
         ctx.fillStyle = 'rgba(255, 255, 255, ' + alpha + ')';
         ctx.fill();
       }
-
       requestAnimationFrame(animate);
     }
     animate();
