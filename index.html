@@ -39,13 +39,13 @@
   .bar a:hover,.bar button:hover{border-bottom-color:var(--text)}
   .bar .name{font-weight:700;color:var(--gray);letter-spacing:0.08em}
   
-.lang-switch{display:flex;gap:0;margin:0}
-.lang-btn{padding:14px 22px;font-size:14px;font-weight:700;background:transparent;color:var(--text);border:1px solid var(--text);cursor:pointer;transition:all .2s;font-family:Arial,Helvetica,sans-serif;letter-spacing:0.04em}
-.lang-btn:hover{background:var(--text);color:var(--bg)}
-.lang-btn.active{background:var(--text);color:var(--bg)}
-.lang-btn + .lang-btn{margin-left:-1px}
-}
+  .lang-switch{display:flex;gap:0;margin:0}
+  .lang-btn{padding:14px 22px;font-size:14px;font-weight:700;background:transparent;color:var(--text);border:1px solid var(--text);cursor:pointer;transition:all .2s;font-family:Arial,Helvetica,sans-serif;letter-spacing:0.04em}
+  .lang-btn:hover{background:var(--text);color:var(--bg)}
+  .lang-btn.active{background:var(--text);color:var(--bg)}
+  .lang-btn + .lang-btn{margin-left:-1px}
 
+  /* Вот здесь была ошибка, теперь всё корректно: */
   .page{display:none;min-height:100vh}
   .page.active{display:block}
   .content{padding:0 clamp(20px,5vw,64px) 96px}
@@ -96,7 +96,7 @@
     .bar{flex-wrap:wrap;gap:12px}
     .bar-left{width:100%;justify-content:space-between}
     .lang-switch{padding:4px;gap:4px}
-.lang-btn{padding:6px 12px;font-size:12px;min-width:40px}
+    .lang-btn{padding:6px 12px;font-size:12px;min-width:40px}
   }
   @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -263,10 +263,10 @@
       <h2 style="margin-top: 0;" data-i18n="contact_title">Давайте обсудим ваш проект</h2>
       <p class="muted" style="margin-bottom: 24px;" data-i18n="contact_desc">Открыта к новым задачам и интересным коллаборациям. Отвечаю в течение дня. Выбирайте удобный способ связи:</p>
       
-      <div style="display: flex; gap: 16px; flex-wrap: nowrap;">
-  <a href="https://t.me/chudarray" target="_blank" rel="noopener" class="action-btn" data-i18n="contact_tg">
-    Написать в Telegram
-  </a>
+      <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+        <a href="https://t.me/chudarray" target="_blank" rel="noopener" class="action-btn" data-i18n="contact_tg">
+          Написать в Telegram
+        </a>
         <a href="mailto:chu.da.ai@yandex.ru" class="action-btn" data-i18n="contact_email">
           Отправить письмо на почту
         </a>
