@@ -10,13 +10,26 @@
   *{box-sizing:border-box;margin:0;padding:0}
   html{background:var(--bg)}
   body{background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+  
+  /* Стили ссылок */
   a{color:var(--text);text-decoration:none;transition:color .2s}
   a:hover{color:var(--gray)}
   a:focus-visible,button:focus-visible{outline:2px solid var(--text);outline-offset:4px}
   
+  /* Специальный стиль для ссылок внутри описания проектов */
+  .job p.desc a {
+    border-bottom: 1px dashed var(--gray);
+    transition: border-color .2s, color .2s;
+  }
+  .job p.desc a:hover {
+    color: var(--text);
+    border-bottom-style: solid;
+    border-bottom-color: var(--text);
+  }
+  
   /* Заголовки: жирные и серые */
   h1,h2,h3{font-weight:700;color:var(--gray);line-height:1.2;font-family:Arial,Helvetica,sans-serif}
-  h1{font-size:48px;letter-spacing:.01em;margin-bottom:12px}
+  h1{font-size:clamp(36px,6vw,64px);letter-spacing:.01em;margin-bottom:12px}
   h2{font-size:24px;margin:48px 0 20px}
   h3{font-size:18px;margin:0 0 4px 0;color:var(--text);font-weight:700}
   
@@ -144,27 +157,27 @@
     <h2>Опыт работы</h2>
     
     <div class="job">
-      <h3>Kiss The Rain</h3>
+      <h3><a href="https://www.behance.net/gallery/253313091/brendbuk-KISS-THE-RAIN-KTR-20252026" target="_blank" rel="noopener">Kiss The Rain</a></h3>
       <p class="period">03.2025 – 06.2026</p>
       <p class="location">(бренд одежды, Владивосток)</p>
       <p class="desc">Куратор и ведущий дизайнер. Смета, ведение клиента, команда из 3 junior-дизайнеров. Аудит, бенчмаркинг, брендбук (позиционирование, архетипы, логотип, палитра, паттерны на азбуке Морзе, носители); довела до печати принтов на футболках.</p>
     </div>
 
     <div class="job">
-      <h3>«Карта вкусов»</h3>
+      <h3><a href="https://www.behance.net/gallery/219657967/brendbuk-holdinga-karta-vkusov-2025" target="_blank" rel="noopener">«Карта вкусов»</a></h3>
       <p class="period">01.2025 – 03.2026</p>
       <p class="location">(заказчик ДВФУ)</p>
       <p class="desc">Куратор и ведущий дизайнер. Концепция выбрана заказчиком из примерно десяти; защитила и презентовала. Команда из 4 junior-дизайнеров. Система паттернов на пакетах, сумках, упаковке еды, транспорте доставки; макеты и брендбук переданы заказчику.</p>
     </div>
 
     <div class="job">
-      <h3>«Антропопрактика»</h3>
+      <h3><a href="https://www.behance.net/gallery/209623805/brending-kompanii-antropopraktika-2023" target="_blank" rel="noopener">«Антропопрактика»</a></h3>
       <p class="period">06.2023 – 04.2026</p>
       <p class="desc">Логотип, палитра, шрифты, паттерн; печать для конференции; работа с типографией в Москве. Повторный заказ: дизайн-система в Figma для карточек курсов (5 вариантов за 1,5 месяца), которую владельцы редактируют сами. Положительный отзыв.</p>
     </div>
 
     <div class="job">
-      <h3>«Лестница»</h3>
+      <h3><a href="https://www.behance.net/gallery/209751093/brending-shkoly-lestnica-2024" target="_blank" rel="noopener">«Лестница»</a></h3>
       <p class="period">07.2024 – 09.2024</p>
       <p class="location">(школа, Севастополь)</p>
       <p class="desc">Логотип, палитра, паттерн, макеты для печати, оформление страницы ВК; вела группу ВК, адаптируя макеты.</p>
@@ -179,7 +192,7 @@
     <div class="job">
       <h3>Первые проекты</h3>
       <p class="period">09.2022 – 01.2023</p>
-      <p class="desc">Фирменный стиль университетского буфета «Вкусная история» (СевГУ); брендинг и брендбук магазина детской одежды «Дочкам сынкам».</p>
+      <p class="desc">Фирменный стиль университетского буфета <a href="https://www.behance.net/gallery/209624707/bufet-vkusnaja-istorija-2022" target="_blank" rel="noopener">«Вкусная история»</a> (СевГУ); брендинг и брендбук магазина детской одежды <a href="https://www.behance.net/gallery/209622259/brending-magazina-detskoj-odezhdy-dochkam-synkam-2022" target="_blank" rel="noopener">«Дочкам сынкам»</a>.</p>
     </div>
 
     <h2>Преподавание</h2>
