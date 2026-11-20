@@ -45,7 +45,6 @@
   .lang-btn.active{background:var(--text);color:var(--bg)}
   .lang-btn + .lang-btn{margin-left:-1px}
 
-  /* Вот здесь была ошибка, теперь всё корректно: */
   .page{display:none;min-height:100vh}
   .page.active{display:block}
   .content{padding:0 clamp(20px,5vw,64px) 96px}
@@ -264,15 +263,9 @@
       <p class="muted" style="margin-bottom: 24px;" data-i18n="contact_desc">Открыта к новым задачам и интересным коллаборациям. Отвечаю в течение дня. Выбирайте удобный способ связи:</p>
       
       <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-        <a href="https://t.me/chudarray" target="_blank" rel="noopener" class="action-btn" data-i18n="contact_tg">
-          Написать в Telegram
-        </a>
-        <a href="mailto:chu.da.ai@yandex.ru" class="action-btn" data-i18n="contact_email">
-          Отправить письмо на почту
-        </a>
-        <a href="https://vk.ru/chudarraya" target="_blank" rel="noopener" class="action-btn" data-i18n="contact_vk">
-          Моя страница ВК
-        </a>
+        <a href="https://t.me/chudarray" target="_blank" rel="noopener" class="action-btn" data-i18n="contact_tg">Написать в Telegram</a>
+        <a href="mailto:chu.da.ai@yandex.ru" class="action-btn" data-i18n="contact_email">Отправить письмо на почту</a>
+        <a href="https://vk.ru/chudarraya" target="_blank" rel="noopener" class="action-btn" data-i18n="contact_vk">Моя страница ВК</a>
       </div>
       
       <p style="margin-top: 24px; font-size: 15px; color: var(--gray);">
@@ -321,14 +314,14 @@
 
     <h2 data-i18n="projects_title">Ключевые проекты</h2>
     <ul class="clean">
-      <li><strong><a href="http://dafefu.su/archive_vdk_chu" target="_blank" rel="noopener" style="text-decoration:underline;color:var(--text)" data-i18n="project_city_name">Город как текстура</a>, 2024–2026.</strong> <span data-i18n="project_city_desc">Интерактивный цифровой архив и медиаинсталляция, исследующая тактильную память Владивостока через сканирование и визуализацию городских поверхностей. (Магистерский проект)</span></li>
-      <li><strong data-i18n="project_kaleidoscope_name">Калейдоскопический глаз, 2025.</strong> <span data-i18n="project_kaleidoscope_desc">Интерактивная инсталляция о тактильной памяти Владивостока: сканирование городских текстур и их преобразование в генеративные паттерны.</span></li>
+      <li><strong><a href="http://dafefu.su/archive_vdk_chu" target="_blank" rel="noopener" style="text-decoration:underline;color:var(--text)" data-i18n="project_city_name">Город как текстура | Калейдоскопический глаз</a>, 2024–2026.</strong> <span data-i18n="project_city_desc">Интерактивный цифровой архив и медиаинсталляция, исследующая тактильную память Владивостока через сканирование и визуализацию городских поверхностей. (Магистерский проект)</span></li>
     </ul>
 
     <h2 data-i18n="exhibitions_title">Выставки</h2>
     <ul class="clean">
-      <li data-i18n="exhibition_between">«Между домами», Художественный музей ДВФУ, 2024</li>
-      <li data-i18n="exhibition_museum">«Ночь музеев», Музей Арсеньева, 2024</li>
+      <li data-i18n="exhibition_between">«Между домами», Художественный музей ДВФУ, ВДК, 2024</li>
+      <li data-i18n="exhibition_museum">«Ночь музеев», Музей Арсеньева, ВДК, 2024</li>
+      <li data-i18n="exhibition_land">«Земля которой не было», Музей «Россия — моя история», ВДК, 2026</li>
     </ul>
 
     <h2 data-i18n="gallery_title">Галерея работ</h2>
@@ -439,13 +432,12 @@ const T = {
     statement_p2: "В основе метода лежит принцип «сканирования реальности»: документация скрытых паттернов в архитектурных ритмах, фиксация тактильных следов ландшафта и преобразование звуковой атмосферы в интерактивные карты.",
     statement_p3: "Моя цель — создать визуальный язык, позволяющий ощутить фундаментальную связь человека и среды, преодолевая отчуждение современного урбанизированного мира.",
     projects_title: "Ключевые проекты",
-    project_city_name: "Город как текстура",
+    project_city_name: "Город как текстура | Калейдоскопический глаз",
     project_city_desc: "Интерактивный цифровой архив и медиаинсталляция, исследующая тактильную память Владивостока через сканирование и визуализацию городских поверхностей. (Магистерский проект)",
-    project_kaleidoscope_name: "Калейдоскопический глаз, 2025.",
-    project_kaleidoscope_desc: "Интерактивная инсталляция о тактильной памяти Владивостока: сканирование городских текстур и их преобразование в генеративные паттерны.",
     exhibitions_title: "Выставки",
-    exhibition_between: "«Между домами», Художественный музей ДВФУ, 2024",
-    exhibition_museum: "«Ночь музеев», Музей Арсеньева, 2024",
+    exhibition_between: "«Между домами», Художественный музей ДВФУ, ВДК, 2024",
+    exhibition_museum: "«Ночь музеев», Музей Арсеньева, ВДК, 2024",
+    exhibition_land: "«Земля которой не было», Музей «Россия — моя история», ВДК, 2026",
     gallery_title: "Галерея работ",
     gallery1_name: "Город как текстура / Калейдоскопический глаз",
     gallery1_type: "Интерактивная инсталляция, 2024–2026",
@@ -532,13 +524,12 @@ const T = {
     statement_p2: "At the core of my method is the principle of \"scanning reality\": documenting hidden patterns in architectural rhythms, recording tactile traces of the landscape, and transforming sound atmospheres into interactive maps.",
     statement_p3: "My goal is to create a visual language that allows one to feel the fundamental connection between human and environment, overcoming the alienation of the modern urbanized world.",
     projects_title: "Key Projects",
-    project_city_name: "City as Texture",
+    project_city_name: "City as Texture | Kaleidoscopic Eye",
     project_city_desc: "Interactive digital archive and media installation exploring the tactile memory of Vladivostok through scanning and visualization of urban surfaces. (Master's thesis project)",
-    project_kaleidoscope_name: "Kaleidoscopic Eye, 2025.",
-    project_kaleidoscope_desc: "Interactive installation about the tactile memory of Vladivostok: scanning urban textures and transforming them into generative patterns.",
     exhibitions_title: "Exhibitions",
-    exhibition_between: "\"Between Houses\", FEFU Art Museum, 2024",
-    exhibition_museum: "\"Museum Night\", Arseniev Museum, 2024",
+    exhibition_between: "\"Between Houses\", FEFU Art Museum, VDK, 2024",
+    exhibition_museum: "\"Museum Night\", Arseniev Museum, VDK, 2024",
+    exhibition_land: "\"The Land That Was Not\", \"Russia - My History\" Museum, VDK, 2026",
     gallery_title: "Gallery",
     gallery1_name: "City as Texture / Kaleidoscopic Eye",
     gallery1_type: "Interactive installation, 2024–2026",
